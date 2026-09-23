@@ -1,173 +1,185 @@
-=== WooCommerce Parcelas ===
-
+=== Installment Prices for WooCommerce ===
 Contributors: filiprimo
-Donate link: https://filipeseabra.me/doar/
-Tags: parcelas, parcelamento, parcelar, a vista, boleto, installments, in cash, financed
-Tested up to: 6.4
-Requires at least: 5.4
-Requires PHP: 7.4
-Stable tag: 1.3.5
-License: GPLv3 or later
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Tags: installments, installment price, cash price, price display, parcelas
+Requires at least: 7.0
+Tested up to: 7.1
+Requires PHP: 8.2
+Stable tag: 2.0.0
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Show installment prices and a discounted cash price on your WooCommerce product lists and product pages.
 
 == Description ==
 
-<p>Com este plugin é possível adicionar informações sobre preço parcelado e/ou preço para pagamento à vista, nas páginas que listam todos os produtos e na página individual de cada produto.</p>
-<p>Possui uma página de opções em "WooCommerce" > "Parcelas" onde é possível definir:</p>
-<ul>
-	<li>Opções para parcelamento:
-		<ul>
-			<li>Prefixo;</li>
-			<li>Quantidade de parcelas;</li>
-			<li>Sufixo;</li>
-			<li>Valor mínimo da parcela.</li>
-		</ul>
-	</li>
-	<li>Opções para pagamento à vista:
-		<ul>
-			<li>Prefixo;</li>
-			<li>Valor do desconto;</li>
-			<li>Tipo do desconto (% ou fixo);</li>
-			<li>Sufixo;</li>
-			<li>É possível desabilitar o preço à vista e/ou o preço parcelado em qualquer produto, individualmente.</li>
+Installment Prices for WooCommerce shows shoppers what each installment would cost, and what they'd pay upfront, right under your prices:
 
-		</ul>
-	</li>
-	<li>Posicão e alinhamento dessas informações dentro das páginas;</li>
-	<li>Estilizar as informações de parcelamento e de pagamento à vista, separadamente e por página.</li>
-</ul>
-<p>As imagens falam por si mesmas: <a href="https://wordpress.org/plugins/woocommerce-parcelas/screenshots/">WooCommerce Parcelas Screenshots</a>.</p>
-<p><strong>Compatível, também, com produto variável e agrupado.</strong></p>
+> Up to 10 installments of $9.90 interest-free
+> or $89.10 by bank transfer
+
+It only displays prices. It doesn't process payments or change what customers are charged: your payment methods still decide how they pay.
+
+**Installment price**
+
+* Split the price into up to as many installments as you choose, with your own text before and after it.
+* Set a minimum installment amount: fewer installments are offered when one would cost less.
+
+**Cash price**
+
+* Take a percentage or a fixed amount off for paying the full amount at once.
+
+**Placement and style**
+
+* Choose where each line appears in product lists and on the product page, in what order, and how it's aligned.
+* Set the color, weight and size of each part of each line, separately for product lists and product pages.
+
+**Per product**
+
+* Hide either line, or give a product its own maximum installments and cash discount, in its **Installments** tab.
+
+**And also**
+
+* Variable products show "From" figures, and the chosen variation's own figures under its price.
+* Grouped products show "From" figures.
+* Out-of-stock products show the lines only if you want them to.
+* Amounts follow your store's tax display setting and price format.
+* Translation-ready, with Brazilian Portuguese (pt_BR) included.
 
 == Installation ==
 
-1. Faça o upload do plugin através do painel do WordPress, indo em "Plugins" > "Adicionar Novo";
-2. Ative o plugin indo até o menu "Plugins";
-3. Habilite a funcionalidade do plugin e defina suas opções em "WooCommerce" > "Parcelas".
+1. Install the plugin from **Plugins → Add New**, or upload it to `/wp-content/plugins/woocommerce-parcelas/`. WooCommerce must be installed and active.
+2. Activate it through the **Plugins** screen.
+3. Go to **WooCommerce → Installment Prices**, switch on the installment price, the cash price or both, and click **Save settings**.
 
 == Frequently Asked Questions ==
 
-= Funciona com o ponto como separador decimal? =
+= Does it charge customers in installments? =
 
-Sim.
+No. It only shows prices; your payment methods decide how customers pay.
 
-= Funciona com produto variável e agrupado? =
+= Which price are the figures based on? =
 
-Sim.
+The price your store shows, including or excluding tax as set in **WooCommerce → Settings → Tax**. Variable and grouped products use their lowest price and say "From".
 
-= É possível definir um preço para pagamento à vista (boleto)? =
+= Can a product have its own settings? =
 
-Sim.
+Yes. Edit the product, and open the **Installments** tab in the **Product data** box: you can hide either line there, or set the product's own maximum installments and cash discount.
 
-= Quero adicionar juros, é possível? =
+= Does it work with block themes? =
 
-Ainda não, talvez, em breve...
+Yes. It uses WooCommerce's product-list and product-page positions, which WooCommerce also provides in its block templates.
 
-<hr />
-<p><a href="http://filipecsweb.com.br/contato" target="_blank">Bugs e Sugestões</a></p>
+= Can amounts use a decimal comma? =
+
+Yes. Amounts accept either a decimal comma or a decimal point.
+
+= Can I add interest to the installments? =
+
+Not yet.
+
+= How do I change the output with code? =
+
+Two filters receive each line's HTML, the product, and the context (`loop` in product lists, `single` on the product page):
+
+`installment_prices_for_woocommerce_installments_html`
+`installment_prices_for_woocommerce_cash_html`
+
+= I'm upgrading from 1.x. What changes? =
+
+Your settings and every product's own settings carry over. The words between your text and the amount ("10 installments of", "10x de" in Portuguese) now follow your site language, as English is the plugin's source language. The output's HTML classes and developer hooks changed, so custom CSS or code written for 1.x needs updating: the lines now use `installment-prices` classes and the two filters above.
+
+== Source code & build ==
+
+The compiled admin assets in `public/build/` are minified. The complete, human-readable source (front-end included) and the build steps live in the plugin's public repository: https://github.com/filipecsweb/wp-plugin-woocommerce-parcelas
 
 == Screenshots ==
 
-1. Tela de configuração (Geral)
-2. Tela de configuração (Posição)
-3. Páginas que listam os produtos (frontend)
-4. Página indivudual do produto (frontend)
-5. Página indivudual do produto (backend)
+1. The installment price and the cash price settings.
+2. Where the lines appear in product lists and on the product page.
+3. The color, weight and size of each part of each line.
+4. Both lines on a product page.
+5. A product's own settings, in its Installments tab.
 
 == Changelog ==
 
+= 2.0.0 =
+* The plugin has a new name: Installment Prices for WooCommerce.
+* Rebuilt from the ground up, with a new settings screen under **WooCommerce → Installment Prices**. English is now the source language, and Brazilian Portuguese is included.
+* A product's own settings move to an **Installments** tab in the **Product data** box.
+* A variable product's chosen variation now shows its own figures under its price, computed by your store instead of read off the page.
+* Amounts now follow your store's tax display setting.
+* Shop managers can now change the settings.
+* Custom styles are now printed with the page instead of loaded from a separate generated stylesheet.
+* Fixed: a fixed cash discount written with a decimal comma showed "NaN" on variable products.
+* Changed: the output's HTML classes and developer hooks were renamed.
+* Requires PHP 8.2, WordPress 7.0 and WooCommerce 9.0 or later.
+
 = 1.3.5 =
-* Corrige estilo: cores etc nao estavam sendo aplicadas.
+* Fixed custom styles (colors and more) not being applied.
 
 = 1.3.4 =
-* Adiciona versao na query string dos arquivos js, carregados no produto variavel, para evitar cache.
-* Cria opcao "Habilitar nos produtos fora de estoque?".
+* The scripts loaded on variable products now carry the version in their URL, to avoid stale caches.
+* Added an option to show the prices on out-of-stock products.
 
 = 1.3.3 =
-* Corrige erro javascript quando o produto variavel possuia preços iguais.
+* Fixed a JavaScript error on variable products whose variations had the same price.
 
 = 1.3.2 =
-* Implementação de possibilidade de sobrescrita de quantidade de parcelas e preço à vista por produto.
+* A product can now override the number of installments and the cash price.
 
 = 1.2.9 =
-* Declaração "!important" foi adicionada aos valores das propriedades em CSS;
-* A função depreciada get_product() foi substituída por wc_get_product();
-* O domínio de texto 'woocommerce-parcelas' foi alterado para 'wc-parcelas'.
+* CSS declarations now use `!important`.
+* Replaced the deprecated `get_product()` with `wc_get_product()`.
+* Changed the text domain from `woocommerce-parcelas` to `wc-parcelas`.
 
 = 1.2.8 =
-* Corrigido bug que impedia o preço à vista de ser mostrado, em produtos variáveis com preços diferentes, caso o parcelamento estivesse desativado.
-* Adicionada opção para desabilitar o preço parcelado em produtos específicos.
-* Adicionada opção para mudar a posição de alinhamento (centralizar) das informações.
-* Adicionada sessão com opções que possibilitam a estilização/formatação das informações.
-* Corrigida URL do botão 'Bugs e Sugestões'
+* Fixed the cash price not showing on variable products with different prices when installments were off.
+* Added an option to hide the installment price on specific products.
+* Added an option to align the prices.
+* Added options to style the prices.
+* Fixed the "Bugs and suggestions" link.
 
 = 1.2.7 =
-* Adicionada opção para desabilitar o preço à vista em produtos específicos.
+* Added an option to hide the cash price on specific products.
 
 = 1.2.6 =
-* Corrigido compatibilidade com produto agrupado. Adicionada opção para definir a posição do preço parcelado e à vista. Adicionada opção para definir um valor de desconto para pagamentos à vista.
+* Fixed grouped products. Added options to position the installment and cash prices, and a discount for paying in cash.
 
 = 1.2.5.3 =
-* Settings link below plugin name was fixed.
+* Fixed the Settings link below the plugin name.
 
 = 1.2.5.1 =
-* Minimum value, with comma, wasn't working in variable product.
+* A minimum amount with a decimal comma now works on variable products.
 
 = 1.2.5 =
-* Some improvements habe been mave in code.
+* Code improvements.
 
 = 1.2.4 =
-* Some bugs were fixed. Some actions were added. One filter was added. Better css classes were added.
+* Bug fixes. Added actions, a filter and better CSS classes.
 
 = 1.2.3 =
-* js code was fixed to work correctly when decimal separator is point.
+* Fixed the JavaScript for stores that use a point as the decimal separator.
 
 = 1.2.2 =
-* Fully compatible with variable product.
+* Full support for variable products.
 
 = 1.2.1 =
-* Translated to english.
+* Translated to English.
 
 = 1.2 =
-* Installment minimum value field added.
+* Added the minimum installment amount.
 
 = 1.1 =
-* Prefix and suffix fields added.
+* Added the prefix and suffix fields.
 
 = 1.0 =
-* Plugin release.
+* First release.
 
 == Upgrade Notice ==
 
-= 1.2.9 =
-* Atualize com tranquilidade para a última versão do WooCommerce Parcela. Mantenha seu plugin WooCommerce sempre atualizado com a última versão.
+= 2.0.0 =
+Rebuilt under a new name, and your settings carry over. Requires PHP 8.2 and WordPress 7.0. The output's HTML classes and hooks changed: update any custom CSS or code written for them.
 
-= 1.2.8 =
-* Esta versão vem com uma série de correções, otimizações de código e novas opções, atualize sem medo!
+== Disclaimer ==
 
-= 1.2.7 =
-* Agora você pode desabilitar o preço à vista em produtos específicos.
-
-= 1.2.6 =
-* WooCommerce Parcelas agora muito mais completo! Atualize para definir a posição do preço parcelado e definir um desconto para pagamentos à vista (boleto).
-
-= 1.2.5.1 =
-* Fixed some bugs.
-
-= 1.2.5 =
-* The plugin code was rewrited to work better.
-
-= 1.2.4 =
-* Now you can customize the plugin using some actions.
-
-= 1.2.3 =
-* Now the plugin works with point, as decimal separator.
-
-= 1.2.2 =
-* For those who wants to displays correct installments in variable product, now the plugin is fully compatible with that product type.
-
-= 1.2.1 =
-* The plugin is now completely translated to en_US.
-
-= 1.2 =
-* Now you can define an installment minimum value. PagSeguro, for example, set it to 5.
+WooCommerce is a trademark of its respective owner. This plugin is not affiliated with or endorsed by WooCommerce.

@@ -1,30 +1,72 @@
-*.sql
-*.tar.gz
-*.zip
-.DS_Store
-.distignore
-.editorconfig
+# Files excluded from the distributed plugin ZIP (wp dist-archive reads this).
+# This is the SINGLE source of truth for what the shipped archive omits — there is
+# deliberately no second mechanism (no .gitattributes export-ignore) to drift from.
+#
+# The shipped ZIP = runtime PHP (woocommerce-parcelas.php, uninstall.php, src/,
+# foundation/, modules/) + the production Composer autoloader
+# (vendor/, installed with --no-dev) + the built, minified front-end assets
+# (public/build/) + translations (languages/: the .pot template and the bundled
+# locales, e.g. pt_BR, as .po/.mo plus the .json the React screen loads). The front-end SOURCE
+# (resources/js, resources/css) and its build config (vite.config.*, package.json,
+# package-lock.json) do NOT ship: the complete human-readable source lives in the
+# public GitHub repo, which satisfies the wordpress.org source-availability guideline.
+# Everything below is build/test/tooling and must NOT ship.
+
+# --- VCS / CI / OS / editor ---
 .git
-.gitattributes
-.github
 .gitignore
-.gitlab-ci.yml
-.travis.yml
-Gruntfile.js
-LICENSE.txt
-README.md
-Thumbs.db
-behat.yml
-bin
-circle.yml
-composer.json
-composer.lock
-multisite.xml
-multisite.xml.dist
+.distignore
+.github
+.editorconfig
+.nvmrc
+.DS_Store
+.idea
+.vscode
+
+# --- AI / assistant tooling ---
+.claude
+
+# --- WordPress.org page assets (banner/icon/screenshots: SVN assets/, never the ZIP) ---
+.wordpress-org
+
+# --- Front-end: source and build config are NOT shipped — only the compiled,
+# minified public/build/ output ships. The human-readable source lives in the
+# public GitHub repo. ---
 node_modules
 package.json
-phpcs.ruleset.xml
-phpunit.xml
-phpunit.xml.dist
+package-lock.json
+vite.config.*
+tsconfig.json
+eslint.config.js
+components.json
+resources
+
+# --- Composer ---
+# composer.json SHIPS: Plugin Check warns (missing_composer_json_file) when a
+# composer-managed vendor/ exists without it. The production vendor/ (installed
+# with --no-dev) ships too; composer.lock is dev-only and excluded.
+composer.lock
+
+# --- Tests & QA tooling ---
 tests
-wp-cli.local.yml
+phpunit.xml.dist
+phpunit.xml
+.phpunit.cache
+.phpunit.result.cache
+phpcs.xml.dist
+phpcs.xml
+.phpcs.cache
+phpstan.neon.dist
+phpstan.neon
+playwright.config.js
+playwright-report
+test-results
+
+# --- Documentation & markdown (readme.txt is .txt and is KEPT) ---
+docs
+*.md
+
+# --- Misc dev-only ---
+*.example
+bin
+dist

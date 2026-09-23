@@ -1,0 +1,210 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Every job only reads the checkout; third-party install scripts run in these jobs.
+permissions:
+  contents: read
+
+# Supersede in-flight runs for the same ref when a newer push/PR-update arrives.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php:
+    name: PHP ${{ matrix.php }} (cs + stan + test)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Version consistency
+        run: bin/check-version-consistency.sh
+
+      - name: Docblock @since presence
+        run: bin/check-since-tags.sh
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: sodium
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: PHPCS (PSR-12 + WordPress security)
+        run: composer cs
+
+      - name: PHPStan (max level)
+        run: composer stan
+
+      - name: Pest (unit)
+        run: composer test
+
+  assets:
+    name: Build assets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      # CONTRACT: qa:js is the plugin's JS gate (typecheck, lint, tests, whatever it
+      # has), and it ends with a production build.
+      - run: npm run qa:js
+
+      - name: Verify the build manifest exists
+        run: test -f public/build/.vite/manifest.json
+
+  wp-versions:
+    name: WordPress versions
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.read.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+
+      # The plugin header's minimum plus the newest release, so raising
+      # "Requires at least" moves the E2E matrix with it.
+      - id: read
+        run: |
+          min="$(bin/check-version-consistency.sh --wp-min)"
+          echo "matrix=[\"$min\", \"latest\"]" >> "$GITHUB_OUTPUT"
+
+  e2e:
+    name: E2E (Playwright + real WordPress ${{ matrix.wp }})
+    needs: wp-versions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      # One version at a time: the specs may share an external test account.
+      max-parallel: 1
+      matrix:
+        wp: ${{ fromJSON(needs.wp-versions.outputs.matrix) }}
+    # A real WordPress served by WP-CLI + the PHP built-in server, with the plugin
+    # symlinked in — the exact shape the e2e suite expects (WP_PLUGIN_PATH points at
+    # this checkout).
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      WP_BASE_URL: http://127.0.0.1:8889
+    steps:
+      - uses: actions/checkout@v5
+
+      # runner.temp isn't available in job-level env, so export WP_DIR here for
+      # the run-script steps below ($WP_DIR) and later expressions (env.WP_DIR).
+      - name: Resolve the WordPress directory
+        run: echo "WP_DIR=$RUNNER_TEMP/wp" >> "$GITHUB_ENV"
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: sodium, mysqli
+          tools: composer:v2, wp-cli
+
+      - run: composer install --prefer-dist --no-progress --no-dev
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Install WordPress
+        run: |
+          mkdir -p "$WP_DIR"
+          wp core download --path="$WP_DIR" --version=${{ matrix.wp }}
+          wp config create --path="$WP_DIR" \
+            --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1:3306
+          # A fresh install auto-updates itself across major versions, off the matrix version.
+          wp config set AUTOMATIC_UPDATER_DISABLED true --raw --path="$WP_DIR"
+          wp core install --path="$WP_DIR" \
+            --url="$WP_BASE_URL" --title="E2E" \
+            --admin_user=admin --admin_password=password \
+            --admin_email=admin@example.test --skip-email
+          wp core version --path="$WP_DIR"
+
+      # CONTRACT: whatever else the plugin's specs need from the site (language packs,
+      # options, fixtures) lives in the plugin's own tests/e2e/setup-site.sh, which
+      # gets the WordPress path as its only argument. It runs before activation, so it
+      # can install the plugins a `Requires Plugins` header makes activation wait for.
+      - name: Plugin site setup
+        if: hashFiles('tests/e2e/setup-site.sh') != ''
+        run: bash tests/e2e/setup-site.sh "$WP_DIR"
+
+      - name: Symlink the plugin and activate
+        run: |
+          ln -s "$GITHUB_WORKSPACE" "$WP_DIR/wp-content/plugins/woocommerce-parcelas"
+          wp plugin activate woocommerce-parcelas --path="$WP_DIR"
+
+      - name: Start the PHP server
+        run: |
+          PHP_CLI_SERVER_WORKERS=8 nohup php -S 127.0.0.1:8889 -t "$WP_DIR" \
+            >/tmp/php-server.log 2>&1 &
+          for _ in $(seq 1 30); do
+            if curl -sf "$WP_BASE_URL/wp-login.php" >/dev/null; then
+              echo "WordPress is reachable at $WP_BASE_URL"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "WordPress did not become reachable:" && cat /tmp/php-server.log && exit 1
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      # CONTRACT: every E2E_<NAME> repository secret reaches the specs as <NAME>, and no
+      # other secret does. Each stays a secret of its own, so the runner still masks it.
+      # GOTCHA: toJSON(secrets) holds every secret this job can read, so credentials that
+      # must never reach it (the wp.org SVN pair) live in the deploy jobs' environment.
+      - name: Export the E2E secrets
+        env:
+          SECRETS: ${{ toJSON(secrets) }}
+        run: |
+          jq -r 'to_entries[] | select(.key | startswith("E2E_"))
+            | "\(.key | ltrimstr("E2E_"))<<E2E_SECRET_EOF\n\(.value)\nE2E_SECRET_EOF"' \
+            <<< "$SECRETS" >> "$GITHUB_ENV"
+
+      - name: Run E2E
+        run: npm run e2e
+        env:
+          WP_PLUGIN_PATH: ${{ env.WP_DIR }}/wp-content/plugins/woocommerce-parcelas
+          WP_ADMIN_USER: admin
+          WP_ADMIN_PASS: password
+
+      # WHY private only: a public repo's artifacts are world-readable, and a failure's
+      # output can hold what a spec typed or sent, the E2E secrets included.
+      - name: Upload the failure traces
+        if: failure() && github.event.repository.private
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-results-${{ matrix.wp }}
+          path: test-results/

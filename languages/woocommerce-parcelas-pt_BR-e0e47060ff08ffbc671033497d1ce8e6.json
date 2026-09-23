@@ -1,0 +1,174 @@
+{
+    "translation-revision-date": "2026-09-23 00:00+0000",
+    "generator": "WP-CLI\/2.12.0",
+    "source": "public\/build\/main.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "pt_BR",
+                "plural-forms": "nplurals=2; plural=(n > 1);"
+            },
+            "Maximum installments": [
+                "M\u00e1ximo de parcelas"
+            ],
+            "Discount type": [
+                "Tipo de desconto"
+            ],
+            "picker": [
+                "seletor"
+            ],
+            "Theme": [
+                "Tema"
+            ],
+            "use the theme color": [
+                "usar a cor do tema"
+            ],
+            "Product lists": [
+                "Listas de produtos"
+            ],
+            "The shop, category and search pages, and lists such as related products.": [
+                "A loja, as p\u00e1ginas de categoria e de busca e listas como a de produtos relacionados."
+            ],
+            "Product page": [
+                "P\u00e1gina do produto"
+            ],
+            "When variations cost different amounts, the chosen variation\u2019s own lines also appear under its price.": [
+                "Quando as varia\u00e7\u00f5es t\u00eam pre\u00e7os diferentes, os valores da varia\u00e7\u00e3o escolhida tamb\u00e9m aparecem abaixo do pre\u00e7o dela."
+            ],
+            "Position": [
+                "Posi\u00e7\u00e3o"
+            ],
+            "Priority": [
+                "Prioridade"
+            ],
+            "Order within the position: WooCommerce shows the price at 10, so 15 comes right after it.": [
+                "Ordem dentro da posi\u00e7\u00e3o: o WooCommerce exibe o pre\u00e7o em 10, ent\u00e3o 15 vem logo depois dele."
+            ],
+            "Alignment": [
+                "Alinhamento"
+            ],
+            "%1$s (%2$s)": [
+                "%1$s (%2$s)"
+            ],
+            "Installment price": [
+                "Pre\u00e7o parcelado"
+            ],
+            "Splits the price into interest-free installments, e.g. \"Up to 10 installments of $9.90 interest-free\".": [
+                "Divide o pre\u00e7o em parcelas sem juros, ex.: \"Em at\u00e9 10x de R$ 9,90 sem juros\"."
+            ],
+            "Show the installment price": [
+                "Exibir o pre\u00e7o parcelado"
+            ],
+            "Text before": [
+                "Texto antes"
+            ],
+            "e.g. \"Up to\". Products with a price range say \"From\" instead.": [
+                "Ex.: \"Em at\u00e9\". Produtos com faixa de pre\u00e7o exibem \"A partir de\" no lugar."
+            ],
+            "Text after": [
+                "Texto depois"
+            ],
+            "e.g. \"interest-free\".": [
+                "Ex.: \"sem juros\"."
+            ],
+            "At least 2. A product can set its own in its Installments tab.": [
+                "No m\u00ednimo 2. Cada produto pode definir o seu na aba Parcelamento."
+            ],
+            "Minimum installment": [
+                "Parcela m\u00ednima"
+            ],
+            "Fewer installments are offered when one would cost less. 0 turns the limit off.": [
+                "Menos parcelas s\u00e3o oferecidas quando uma ficaria abaixo desse valor. 0 desativa o limite."
+            ],
+            "Show it on out-of-stock products too": [
+                "Exibir tamb\u00e9m em produtos fora de estoque"
+            ],
+            "Cash price": [
+                "Pre\u00e7o \u00e0 vista"
+            ],
+            "A discounted price for paying the full amount at once, e.g. \"or $89.10 by bank transfer\".": [
+                "Um pre\u00e7o com desconto para pagamento \u00e0 vista, ex.: \"ou R$ 89,10 no Pix\"."
+            ],
+            "Show the cash price": [
+                "Exibir o pre\u00e7o \u00e0 vista"
+            ],
+            "e.g. \"or\".": [
+                "Ex.: \"ou\"."
+            ],
+            "e.g. \"by bank transfer\".": [
+                "Ex.: \"no Pix\"."
+            ],
+            "Discount": [
+                "Desconto"
+            ],
+            "A product can set its own in its Installments tab.": [
+                "Cada produto pode definir o seu na aba Parcelamento."
+            ],
+            "Amount": [
+                "Valor"
+            ],
+            "Color": [
+                "Cor"
+            ],
+            "Weight": [
+                "Peso"
+            ],
+            "Size": [
+                "Tamanho"
+            ],
+            "Leave a field empty to keep your theme\u2019s style.": [
+                "Deixe um campo vazio para manter o estilo do tema."
+            ],
+            "e.g. 18px": [
+                "ex.: 18px"
+            ],
+            "Settings saved.": [
+                "Configura\u00e7\u00f5es salvas."
+            ],
+            "Some style values weren\u2019t valid, so they were cleared. Use colors like #1e1e1e and sizes like 18px or 1.2em.": [
+                "Alguns valores de estilo n\u00e3o eram v\u00e1lidos e foram removidos. Use cores como #1e1e1e e tamanhos como 18px ou 1.2em."
+            ],
+            "Something went wrong. Please try again.": [
+                "Algo deu errado. Tente novamente."
+            ],
+            "Notifications": [
+                "Notifica\u00e7\u00f5es"
+            ],
+            "Dismiss this notice.": [
+                "Dispensar este aviso."
+            ],
+            "General": [
+                "Geral"
+            ],
+            "Display": [
+                "Exibi\u00e7\u00e3o"
+            ],
+            "Style": [
+                "Estilo"
+            ],
+            "Settings sections": [
+                "Se\u00e7\u00f5es das configura\u00e7\u00f5es"
+            ],
+            "Saving\u2026": [
+                "Salvando\u2026"
+            ],
+            "Save settings": [
+                "Salvar configura\u00e7\u00f5es"
+            ],
+            "You have unsaved changes.": [
+                "H\u00e1 altera\u00e7\u00f5es n\u00e3o salvas."
+            ],
+            "Version %s": [
+                "Vers\u00e3o %s"
+            ],
+            "Get support": [
+                "Obter suporte"
+            ],
+            "WooCommerce is a trademark of its respective owner. This plugin is not affiliated with or endorsed by WooCommerce.": [
+                "WooCommerce \u00e9 uma marca de seu respectivo propriet\u00e1rio. Este plugin n\u00e3o \u00e9 afiliado ao WooCommerce nem endossado por ele."
+            ]
+        }
+    }
+}

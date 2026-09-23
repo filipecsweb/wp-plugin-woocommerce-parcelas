@@ -1,0 +1,409 @@
+# Copyright (C) 2026 Filipe Seabra
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Installment Prices for WooCommerce 2.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-parcelas\n"
+"Last-Translator: Filipe Seabra\n"
+"Language-Team: Portuguese (Brazil)\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-23T04:52:29+00:00\n"
+"PO-Revision-Date: 2026-09-23 00:00+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: woocommerce-parcelas\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. Plugin Name of the plugin
+#: woocommerce-parcelas.php
+#: src/Admin/SettingsPage.php:67
+msgid "Installment Prices for WooCommerce"
+msgstr "Parcelas para WooCommerce"
+
+#. Plugin URI of the plugin
+#: woocommerce-parcelas.php
+msgid "https://wordpress.org/plugins/woocommerce-parcelas/"
+msgstr ""
+
+#. Description of the plugin
+#: woocommerce-parcelas.php
+msgid "Show installment prices and a discounted cash price on your WooCommerce product lists and product pages."
+msgstr "Exiba o preço parcelado e o preço à vista com desconto nas listas de produtos e nas páginas de produto do WooCommerce."
+
+#. Author of the plugin
+#: woocommerce-parcelas.php
+msgid "Filipe Seabra"
+msgstr ""
+
+#. Author URI of the plugin
+#: woocommerce-parcelas.php
+msgid "https://github.com/filipecsweb"
+msgstr ""
+
+#: src/Admin/ProductDataTab.php:72
+msgid "Installments"
+msgstr "Parcelamento"
+
+#: src/Admin/ProductDataTab.php:97
+msgid "Leave blank to use the store setting."
+msgstr "Deixe em branco para usar a configuração da loja."
+
+#: src/Admin/ProductDataTab.php:105
+msgid "Hide installments"
+msgstr "Ocultar parcelamento"
+
+#: src/Admin/ProductDataTab.php:106
+msgid "Show no installment price for this product."
+msgstr "Não exibir o preço parcelado neste produto."
+
+#: src/Admin/ProductDataTab.php:111
+#: public/build/main.js:1
+msgid "Maximum installments"
+msgstr "Máximo de parcelas"
+
+#: src/Admin/ProductDataTab.php:124
+msgid "Hide cash price"
+msgstr "Ocultar preço à vista"
+
+#: src/Admin/ProductDataTab.php:125
+msgid "Show no cash price for this product."
+msgstr "Não exibir o preço à vista neste produto."
+
+#: src/Admin/ProductDataTab.php:130
+msgid "Cash discount"
+msgstr "Desconto à vista"
+
+#: src/Admin/ProductDataTab.php:140
+#: public/build/main.js:1
+msgid "Discount type"
+msgstr "Tipo de desconto"
+
+#: src/Admin/ProductDataTab.php:142
+msgid "Store setting"
+msgstr "Configuração da loja"
+
+#: src/Admin/SettingsPage.php:59
+msgid "Sorry, you are not allowed to access this page."
+msgstr "Desculpe, você não tem permissão para acessar esta página."
+
+#: src/Admin/SettingsPage.php:75
+msgid "Installment Prices"
+msgstr "Parcelas"
+
+#: src/Admin/SettingsPage.php:90
+msgid "Settings"
+msgstr "Configurações"
+
+#: src/Admin/SettingsPage.php:103
+msgid "Show installment prices and a cash price on your product lists and product pages."
+msgstr "Exiba o preço parcelado e o preço à vista nas listas de produtos e nas páginas de produto."
+
+#: src/Settings/Settings.php:228
+msgid "Below the product title"
+msgstr "Abaixo do título do produto"
+
+#: src/Settings/Settings.php:229
+#: src/Settings/Settings.php:235
+msgid "Below the Add to cart button"
+msgstr "Abaixo do botão Adicionar ao carrinho"
+
+#: src/Settings/Settings.php:232
+msgid "In the product summary"
+msgstr "No resumo do produto"
+
+#: src/Settings/Settings.php:233
+msgid "Above the add-to-cart form"
+msgstr "Acima do formulário de compra"
+
+#: src/Settings/Settings.php:234
+msgid "Above the Add to cart button"
+msgstr "Acima do botão Adicionar ao carrinho"
+
+#: src/Settings/Settings.php:236
+msgid "Below the add-to-cart form"
+msgstr "Abaixo do formulário de compra"
+
+#: src/Settings/Settings.php:239
+#: src/Settings/Settings.php:245
+msgid "Theme default"
+msgstr "Padrão do tema"
+
+#: src/Settings/Settings.php:240
+msgid "Left"
+msgstr "Esquerda"
+
+#: src/Settings/Settings.php:241
+msgid "Center"
+msgstr "Centro"
+
+#: src/Settings/Settings.php:242
+msgid "Right"
+msgstr "Direita"
+
+#: src/Settings/Settings.php:246
+msgid "100 (Thin)"
+msgstr "100 (Fina)"
+
+#: src/Settings/Settings.php:247
+msgid "200 (Extra light)"
+msgstr "200 (Extraleve)"
+
+#: src/Settings/Settings.php:248
+msgid "300 (Light)"
+msgstr "300 (Leve)"
+
+#: src/Settings/Settings.php:249
+msgid "400 (Normal)"
+msgstr "400 (Normal)"
+
+#: src/Settings/Settings.php:250
+msgid "500 (Medium)"
+msgstr "500 (Média)"
+
+#: src/Settings/Settings.php:251
+msgid "600 (Semibold)"
+msgstr "600 (Seminegrito)"
+
+#: src/Settings/Settings.php:252
+msgid "700 (Bold)"
+msgstr "700 (Negrito)"
+
+#: src/Settings/Settings.php:253
+msgid "800 (Extra bold)"
+msgstr "800 (Extranegrito)"
+
+#: src/Settings/Settings.php:254
+msgid "900 (Black)"
+msgstr "900 (Ultranegrito)"
+
+#: src/Settings/Settings.php:257
+msgid "Percentage (%)"
+msgstr "Porcentagem (%)"
+
+#: src/Settings/Settings.php:258
+msgid "Fixed amount"
+msgstr "Valor fixo"
+
+#. translators: %d: number of installments; the amount of each follows.
+#: src/Storefront/Renderer.php:106
+#, php-format
+msgid "%d installment of"
+msgid_plural "%d installments of"
+msgstr[0] "%dx de"
+msgstr[1] "%dx de"
+
+#: src/Storefront/Renderer.php:110
+msgid "From"
+msgstr "A partir de"
+
+#: woocommerce-parcelas.php:53
+msgid "Installment Prices for WooCommerce: dependencies are missing. Run \"composer install\" in the plugin directory."
+msgstr "Parcelas para WooCommerce: faltam dependências. Execute \"composer install\" no diretório do plugin."
+
+#: public/build/main.js:1
+msgid "picker"
+msgstr "seletor"
+
+#: public/build/main.js:1
+msgid "Theme"
+msgstr "Tema"
+
+#: public/build/main.js:1
+msgid "use the theme color"
+msgstr "usar a cor do tema"
+
+#: public/build/main.js:1
+msgid "Product lists"
+msgstr "Listas de produtos"
+
+#: public/build/main.js:1
+msgid "The shop, category and search pages, and lists such as related products."
+msgstr "A loja, as páginas de categoria e de busca e listas como a de produtos relacionados."
+
+#: public/build/main.js:1
+msgid "Product page"
+msgstr "Página do produto"
+
+#: public/build/main.js:1
+msgid "When variations cost different amounts, the chosen variation’s own lines also appear under its price."
+msgstr "Quando as variações têm preços diferentes, os valores da variação escolhida também aparecem abaixo do preço dela."
+
+#: public/build/main.js:1
+msgid "Position"
+msgstr "Posição"
+
+#: public/build/main.js:1
+msgid "Priority"
+msgstr "Prioridade"
+
+#: public/build/main.js:1
+msgid "Order within the position: WooCommerce shows the price at 10, so 15 comes right after it."
+msgstr "Ordem dentro da posição: o WooCommerce exibe o preço em 10, então 15 vem logo depois dele."
+
+#: public/build/main.js:1
+msgid "Alignment"
+msgstr "Alinhamento"
+
+#: public/build/main.js:1
+#, js-format
+msgid "%1$s (%2$s)"
+msgstr "%1$s (%2$s)"
+
+#: public/build/main.js:1
+msgid "Installment price"
+msgstr "Preço parcelado"
+
+#: public/build/main.js:1
+msgid "Splits the price into interest-free installments, e.g. \"Up to 10 installments of $9.90 interest-free\"."
+msgstr "Divide o preço em parcelas sem juros, ex.: \"Em até 10x de R$ 9,90 sem juros\"."
+
+#: public/build/main.js:1
+msgid "Show the installment price"
+msgstr "Exibir o preço parcelado"
+
+#: public/build/main.js:1
+msgid "Text before"
+msgstr "Texto antes"
+
+#: public/build/main.js:1
+msgid "e.g. \"Up to\". Products with a price range say \"From\" instead."
+msgstr "Ex.: \"Em até\". Produtos com faixa de preço exibem \"A partir de\" no lugar."
+
+#: public/build/main.js:1
+msgid "Text after"
+msgstr "Texto depois"
+
+#: public/build/main.js:1
+msgid "e.g. \"interest-free\"."
+msgstr "Ex.: \"sem juros\"."
+
+#: public/build/main.js:1
+msgid "At least 2. A product can set its own in its Installments tab."
+msgstr "No mínimo 2. Cada produto pode definir o seu na aba Parcelamento."
+
+#: public/build/main.js:1
+msgid "Minimum installment"
+msgstr "Parcela mínima"
+
+#: public/build/main.js:1
+msgid "Fewer installments are offered when one would cost less. 0 turns the limit off."
+msgstr "Menos parcelas são oferecidas quando uma ficaria abaixo desse valor. 0 desativa o limite."
+
+#: public/build/main.js:1
+msgid "Show it on out-of-stock products too"
+msgstr "Exibir também em produtos fora de estoque"
+
+#: public/build/main.js:1
+msgid "Cash price"
+msgstr "Preço à vista"
+
+#: public/build/main.js:1
+msgid "A discounted price for paying the full amount at once, e.g. \"or $89.10 by bank transfer\"."
+msgstr "Um preço com desconto para pagamento à vista, ex.: \"ou R$ 89,10 no Pix\"."
+
+#: public/build/main.js:1
+msgid "Show the cash price"
+msgstr "Exibir o preço à vista"
+
+#: public/build/main.js:1
+msgid "e.g. \"or\"."
+msgstr "Ex.: \"ou\"."
+
+#: public/build/main.js:1
+msgid "e.g. \"by bank transfer\"."
+msgstr "Ex.: \"no Pix\"."
+
+#: public/build/main.js:1
+msgid "Discount"
+msgstr "Desconto"
+
+#: public/build/main.js:1
+msgid "A product can set its own in its Installments tab."
+msgstr "Cada produto pode definir o seu na aba Parcelamento."
+
+#: public/build/main.js:1
+msgid "Amount"
+msgstr "Valor"
+
+#: public/build/main.js:1
+msgid "Color"
+msgstr "Cor"
+
+#: public/build/main.js:1
+msgid "Weight"
+msgstr "Peso"
+
+#: public/build/main.js:1
+msgid "Size"
+msgstr "Tamanho"
+
+#: public/build/main.js:1
+msgid "Leave a field empty to keep your theme’s style."
+msgstr "Deixe um campo vazio para manter o estilo do tema."
+
+#: public/build/main.js:1
+msgid "e.g. 18px"
+msgstr "ex.: 18px"
+
+#: public/build/main.js:1
+msgid "Settings saved."
+msgstr "Configurações salvas."
+
+#: public/build/main.js:1
+msgid "Some style values weren’t valid, so they were cleared. Use colors like #1e1e1e and sizes like 18px or 1.2em."
+msgstr "Alguns valores de estilo não eram válidos e foram removidos. Use cores como #1e1e1e e tamanhos como 18px ou 1.2em."
+
+#: public/build/main.js:1
+msgid "Something went wrong. Please try again."
+msgstr "Algo deu errado. Tente novamente."
+
+#: public/build/main.js:1
+msgid "Notifications"
+msgstr "Notificações"
+
+#: public/build/main.js:1
+msgid "Dismiss this notice."
+msgstr "Dispensar este aviso."
+
+#: public/build/main.js:1
+msgid "General"
+msgstr "Geral"
+
+#: public/build/main.js:1
+msgid "Display"
+msgstr "Exibição"
+
+#: public/build/main.js:1
+msgid "Style"
+msgstr "Estilo"
+
+#: public/build/main.js:1
+msgid "Settings sections"
+msgstr "Seções das configurações"
+
+#: public/build/main.js:1
+msgid "Saving…"
+msgstr "Salvando…"
+
+#: public/build/main.js:1
+msgid "Save settings"
+msgstr "Salvar configurações"
+
+#: public/build/main.js:1
+msgid "You have unsaved changes."
+msgstr "Há alterações não salvas."
+
+#: public/build/main.js:1
+#, js-format
+msgid "Version %s"
+msgstr "Versão %s"
+
+#: public/build/main.js:1
+msgid "Get support"
+msgstr "Obter suporte"
+
+#: public/build/main.js:1
+msgid "WooCommerce is a trademark of its respective owner. This plugin is not affiliated with or endorsed by WooCommerce."
+msgstr "WooCommerce é uma marca de seu respectivo proprietário. Este plugin não é afiliado ao WooCommerce nem endossado por ele."

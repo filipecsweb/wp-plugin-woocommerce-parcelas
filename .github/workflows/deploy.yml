@@ -1,0 +1,63 @@
+name: Deploy to WordPress.org
+
+on:
+  release:
+    types: [published]
+
+# One deploy at a time; never cancel an in-flight SVN commit.
+concurrency:
+  group: wporg-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to WordPress.org
+    runs-on: ubuntu-latest
+    # `published` also fires for pre-releases — never ship those to wp.org.
+    if: ${{ !github.event.release.prerelease }}
+    # The SVN credentials are this environment's secrets, not the repository's, so no
+    # other job (the E2E job reads every secret it can) ever sees them.
+    environment: wporg
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # The shipped ZIP contains only the compiled public/build/ output; the
+      # front-end source is excluded via .distignore (single source of truth).
+      - run: npm ci
+      - run: npm run build
+
+      - name: Verify the build manifest exists
+        run: test -f public/build/.vite/manifest.json
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: sodium
+          coverage: none
+          tools: composer:v2
+
+      # Production autoloader only — dev packages never ship.
+      - name: Install Composer dependencies (production)
+        run: composer install --prefer-dist --no-progress --no-dev --optimize-autoloader
+
+      - name: Deploy to WordPress.org SVN
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          # The GitHub repo name may differ from the wp.org slug; without SLUG the
+          # action would default to the repo name and hit the wrong SVN URL.
+          SLUG: woocommerce-parcelas
+          # Assets live at .wordpress-org/assets/, one level below the action's
+          # default ASSETS_DIR (.wordpress-org). Without this the action copies the
+          # whole assets/ subfolder into SVN and nests it as assets/assets/, so the
+          # banner/icon go missing on the plugin page.
+          ASSETS_DIR: .wordpress-org/assets
+          # VERSION is intentionally not set: the action derives it from the
+          # release tag and strips a leading "v" (v1.2.3 -> 1.2.3).
