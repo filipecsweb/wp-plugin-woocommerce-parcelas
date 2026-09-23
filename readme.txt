@@ -86,7 +86,7 @@ Two filters receive each line's HTML, the product, and the context (`loop` in pr
 
 = I'm upgrading from 1.x. What changes? =
 
-Your settings and every product's own settings carry over. The output's HTML classes and developer hooks changed, so custom CSS or code written for 1.x needs updating: the lines now use `installment-prices` classes and the two filters above.
+Your settings and every product's own settings carry over. The words between your text and the amount ("10 installments of", "10x de" in Portuguese) now follow your site language, as English is the plugin's source language. The output's HTML classes and developer hooks changed, so custom CSS or code written for 1.x needs updating: the lines now use `installment-prices` classes and the two filters above.
 
 == Source code & build ==
 
