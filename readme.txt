@@ -90,7 +90,7 @@ Your settings and every product's own settings carry over. The words between you
 
 == Source code & build ==
 
-The compiled admin assets in `public/build/` are minified. The complete, human-readable source (front-end included) and the build steps live in the plugin's public repository: https://github.com/filipecsweb/woocommerce-parcelas
+The compiled admin assets in `public/build/` are minified. The complete, human-readable source (front-end included) and the build steps live in the plugin's public repository: https://github.com/filipecsweb/wp-plugin-woocommerce-parcelas
 
 == Screenshots ==
 
