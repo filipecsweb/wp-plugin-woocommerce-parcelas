@@ -26,10 +26,12 @@ export class Api {
     return new Api(page, root, nonce)
   }
 
-  req(method, routePath, body, namespace = NS) {
+  // Query parameters go through `params`: under plain permalinks the root is itself a query (?rest_route=/).
+  req(method, routePath, body, namespace = NS, params = undefined) {
     return this.page.request[method](`${this.root}${namespace}${routePath}`, {
       headers: { 'X-WP-Nonce': this.nonce, ...(body ? { 'Content-Type': 'application/json' } : {}) },
       ...(body ? { data: body } : {}),
+      ...(params ? { params } : {}),
     })
   }
 
@@ -47,7 +49,7 @@ export class Api {
   }
 
   async productId(slug) {
-    const res = await this.req('get', `/products?slug=${encodeURIComponent(slug)}`, undefined, 'wc/v3')
+    const res = await this.req('get', '/products', undefined, 'wc/v3', { slug })
     expect(res.ok(), `GET wc/v3/products?slug=${slug} (run tests/e2e/setup-site.sh)`).toBeTruthy()
     const [product] = await res.json()
     expect(product, `fixture product ${slug} (run tests/e2e/setup-site.sh)`).toBeTruthy()
