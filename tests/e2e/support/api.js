@@ -54,6 +54,12 @@ export class Api {
     return product.id
   }
 
+  /** Drops a product's own settings (ProductDataTab), whatever an earlier run left. An empty value reads as none. */
+  async clearProductOverrides(slug) {
+    const res = await this.req('put', `/products/${await this.productId(slug)}`, { meta_data: [{ key: '_installment_prices_for_woocommerce', value: '' }] }, 'wc/v3')
+    expect(res.ok(), `clear the overrides of ${slug}`).toBeTruthy()
+  }
+
   /** The admin user's own locale ('' = the site default). Core rejects a locale whose language pack isn't installed. */
   async setUserLocale(locale) {
     const res = await this.req('post', '/users/me', { locale }, 'wp/v2')

@@ -22,6 +22,7 @@ const lines = (scope) => ({
 test.describe('Storefront', () => {
   test.beforeEach(async ({ api }) => {
     await api.saveSettings(SETTINGS)
+    await api.clearProductOverrides(PRODUCTS.simple.slug)
   })
 
   test('a product page shows both lines', async ({ admin, restore }) => {
@@ -99,31 +100,24 @@ test.describe('Storefront', () => {
   test('a product can set its own maximum and hide its cash price', async ({ admin, api, restore }) => {
     void restore
     const id = await api.productId(PRODUCTS.simple.slug)
-    const edit = async (fill) => {
-      await admin.goto(editProductPath(id))
-      // Meta boxes that load late shift the editor's layout until they settle.
-      await admin.waitForLoadState('networkidle')
-      await admin.locator('.installment_prices_options a').click()
-      await fill(admin.locator('#installment_prices_product_data'))
-      // WordPress redirects to the editor with ?message= once the product is saved.
-      await Promise.all([admin.waitForURL(/[?&]message=\d+/), admin.locator('#publish').click()])
-    }
 
     try {
-      await edit(async (panel) => {
-        await panel.getByLabel('Maximum installments').fill('4')
-        await panel.getByLabel('Hide cash price').check()
-      })
+      await admin.goto(editProductPath(id))
+      // GOTCHA: late meta boxes keep shifting a busy editor, so these act by event, not by pointer position.
+      await admin.locator('.installment_prices_options a').dispatchEvent('click')
+      const panel = admin.locator('#installment_prices_product_data')
+      await panel.getByLabel('Maximum installments').fill('4')
+      await panel.getByLabel('Hide cash price').evaluate((checkbox) => (checkbox.checked = true))
+      // WordPress redirects to the editor with ?message= once the product is saved.
+      await Promise.all([admin.waitForURL(/[?&]message=\d+/), admin.locator('#publish').dispatchEvent('click')])
+
       await admin.goto(productPath(PRODUCTS.simple.slug))
       const { installments, cash } = lines(admin.locator('.installment-prices--single'))
       await expect(installments).toContainText('Up to 4 installments of')
       await expect(installments).toContainText(amount('25.00'))
       await expect(cash).toHaveCount(0)
     } finally {
-      await edit(async (panel) => {
-        await panel.getByLabel('Maximum installments').fill('')
-        await panel.getByLabel('Hide cash price').uncheck()
-      })
+      await api.clearProductOverrides(PRODUCTS.simple.slug)
     }
   })
 })
