@@ -1,0 +1,376 @@
+/**
+ * React settings screen. Tailwind v4 with the `tw` prefix, every rule scoped to the
+ * #installment-prices-for-woocommerce-app mount so wp-admin outside it stays untouched.
+ *
+ * GOTCHA (cascade): for normal declarations unlayered beats layered, and the order
+ * inverts for !important. So the scoped reset below is unlayered and never
+ * !important (it beats wp-admin's rules by its id), while the utilities are layered
+ * and `important` (they beat both the reset and wp-admin).
+ */
+@layer theme, base, components, utilities;
+
+/* theme(inline): utilities carry literal values, so the build defines and reads no theme variable on :root, where any other Tailwind build on the page could overwrite it. */
+@import "tailwindcss/theme.css" layer(theme) prefix(tw) theme(inline);
+/*
+ * WHY nested: other plugins load their own `tw`-prefixed Tailwind on every admin screen, into
+ * the same layer with the same class names, where the last stylesheet would win. The mount id
+ * outranks them. Tailwind's own `important: "#id"` option compiles to this same nesting.
+ * source(none): auto-detection would also scrape class names out of Markdown and dist/.
+ */
+#installment-prices-for-woocommerce-app {
+    @import "tailwindcss/utilities.css" layer(utilities) prefix(tw) important source(none);
+}
+
+@source "../js/app";
+@source "../js/ui";
+
+/* Never matches in wp-admin: neutralizes the tw:dark: classes shadcn components ship. */
+@custom-variant dark (&:is(.dark *));
+
+/* shadcn's orientation variants (its tailwind.css is not imported): Base UI renders data-orientation, not data-horizontal. */
+@custom-variant data-horizontal (&:where([data-orientation="horizontal"]));
+@custom-variant data-vertical (&:where([data-orientation="vertical"]));
+
+/* Core's two admin breakpoints, as its own media queries write them (no custom property works in @media). */
+@custom-variant mobile {
+    @media screen and (max-width: 782px) {
+        @slot;
+    }
+}
+@custom-variant narrow {
+    @media screen and (max-width: 600px) {
+        @slot;
+    }
+}
+
+@theme inline {
+    /* px, not Tailwind's rem: a rem would scale with whatever font size the page's root element gets. */
+    --spacing: var(--spacing-unit);
+    /* A media query can't read a custom property; px keeps the breakpoint off the browser's font-size setting. */
+    --breakpoint-sm: 640px;
+    --font-sans: var(--font-body);
+    --font-mono: var(--font-code);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-heading: var(--heading);
+    --color-description: var(--description);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-subtle-foreground: var(--subtle-foreground);
+    --color-faint-foreground: var(--faint-foreground);
+    --color-link: var(--link);
+    --color-link-hover: var(--link-hover);
+    --color-primary: var(--primary);
+    --color-primary-hover: var(--primary-hover);
+    --color-primary-active: var(--primary-active);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary-tint-hover: var(--primary-tint-hover);
+    --color-primary-tint-active: var(--primary-tint-active);
+    --color-destructive: var(--destructive);
+    --color-destructive-disabled: var(--destructive-disabled);
+    --color-destructive-disabled-border: var(--destructive-disabled-border);
+    --color-disabled: var(--disabled);
+    --color-disabled-foreground: var(--disabled-foreground);
+    --color-disabled-border: var(--disabled-border);
+    --color-border: var(--border);
+    --color-border-muted: var(--border-muted);
+    --color-border-subtle: var(--border-subtle);
+    --color-card: var(--card);
+    --color-row-hover: var(--row-hover);
+    --color-input: var(--input);
+    --color-input-hover: var(--input-hover);
+    --color-input-foreground: var(--input-foreground);
+    --color-placeholder: var(--placeholder);
+    --color-input-disabled: var(--input-disabled);
+    --color-input-disabled-border: var(--input-disabled-border);
+    --color-input-disabled-foreground: var(--input-disabled-foreground);
+    --color-select-disabled: var(--select-disabled);
+    --color-select-disabled-border: var(--select-disabled-border);
+    --color-select-disabled-foreground: var(--select-disabled-foreground);
+    --color-tab-bg: var(--tab-bg);
+    --color-tab-foreground: var(--tab-foreground);
+    --color-tab-hover-bg: var(--tab-hover-bg);
+    --color-tab-hover-foreground: var(--tab-hover-foreground);
+    --color-tab-active-bg: var(--tab-active-bg);
+    --color-tab-active-focus-bg: var(--tab-active-focus-bg);
+    --color-tab-active-foreground: var(--tab-active-foreground);
+    --color-table-head-foreground: var(--table-head-foreground);
+    --color-table-cell-foreground: var(--table-cell-foreground);
+    --color-table-stripe: var(--table-stripe);
+    --color-notice-foreground: var(--notice-foreground);
+    --color-notice-error: var(--notice-error);
+    --color-notice-error-border: var(--notice-error-border);
+    --color-notice-warning: var(--notice-warning);
+    --color-notice-warning-border: var(--notice-warning-border);
+    --color-notice-success: var(--notice-success);
+    --color-notice-success-border: var(--notice-success-border);
+    --color-code: var(--code);
+    --color-code-foreground: var(--code-foreground);
+    --color-badge-success: var(--badge-success);
+    --color-badge-success-foreground: var(--badge-success-foreground);
+    --color-badge-destructive: var(--badge-destructive);
+    --color-badge-destructive-foreground: var(--badge-destructive-foreground);
+    --color-tooltip-bg: var(--tooltip-bg);
+    --color-tooltip-foreground: var(--tooltip-foreground);
+    --color-overlay: var(--overlay);
+    --color-countdown-success: var(--countdown-success);
+    --color-countdown-error: var(--countdown-error);
+
+    --text-body: var(--font-size-body);
+    --text-paragraph: var(--font-size-body);
+    --text-paragraph--line-height: var(--line-height-paragraph);
+    --text-cell: var(--font-size-body);
+    --text-cell--line-height: var(--line-height-cell);
+    --text-label: var(--font-size-label);
+    --text-label--line-height: var(--line-height-label);
+    --text-control: var(--font-size-control);
+    --text-control--line-height: var(--line-height-control);
+    --text-select: var(--font-size-control);
+    --text-select--line-height: var(--line-height-select);
+    --text-button: var(--font-size-body);
+    --text-button--line-height: var(--line-height-button);
+    --text-button-sm: var(--font-size-button-sm);
+    --text-button-sm--line-height: var(--line-height-button-sm);
+    --text-tab: var(--font-size-label);
+    --text-tab--line-height: var(--line-height-tab);
+    --text-table-head: var(--font-size-label);
+    --text-table-head--line-height: var(--line-height-table-head);
+    --text-notice: var(--font-size-body);
+    --text-notice--line-height: var(--line-height-notice);
+    --text-tooltip: var(--font-size-tooltip);
+    --text-tooltip--line-height: var(--line-height-tooltip);
+    --text-glyph: var(--font-size-glyph);
+    --text-glyph--line-height: var(--line-height-glyph);
+    --text-body-mobile: var(--font-size-mobile);
+    --text-button-mobile: var(--font-size-mobile);
+    --text-button-mobile--line-height: var(--line-height-button-mobile);
+    --text-control-mobile: var(--font-size-control-mobile);
+    --text-select-mobile: var(--font-size-control-mobile);
+    --text-select-mobile--line-height: var(--line-height-select-mobile);
+    --text-notice-mobile: var(--font-size-mobile);
+    --text-notice-mobile--line-height: var(--line-height-notice-mobile);
+
+    --radius-control: var(--radius-control-size);
+    --radius-row: var(--radius-row-size);
+    --radius-badge: var(--radius-badge-size);
+    --radius-dialog: var(--radius-dialog-size);
+
+    --shadow-card: var(--shadow-card-value);
+    --shadow-focus: var(--shadow-focus-value);
+    --shadow-focus-primary: var(--shadow-focus-primary-value);
+    --shadow-focus-checkbox: var(--shadow-focus-checkbox-value);
+    --shadow-rule-top: var(--shadow-rule-top-value);
+    --shadow-tooltip: var(--shadow-tooltip-value);
+    --shadow-dialog: var(--shadow-dialog-value);
+
+    --ease-core: var(--ease-core-value);
+}
+
+/* Keyframe names are global to the document: a generic `spin` from any other stylesheet would replace ours. */
+@theme inline {
+    --animate-spin: installment-prices-for-woocommerce-spin 1s linear infinite;
+
+    @keyframes installment-prices-for-woocommerce-spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+/*
+ * Drops every wp-admin rule inside the mount. GOTCHA: :where() keeps this at
+ * (1,0,0) so the preflight below still wins; without it :not(svg, svg *) raises it
+ * to (1,0,1). SVGs are excluded, or `all: revert` wipes their presentation attributes.
+ */
+#installment-prices-for-woocommerce-app :where(:not(svg, svg *)),
+#installment-prices-for-woocommerce-app :where(:not(svg, svg *))::before,
+#installment-prices-for-woocommerce-app :where(:not(svg, svg *))::after {
+    all: revert;
+}
+
+#installment-prices-for-woocommerce-app {
+    @import "tailwindcss/preflight.css";
+}
+
+/* Core's one typographic base rule the kit keeps; it comes after preflight, which would make it 700. */
+#installment-prices-for-woocommerce-app b,
+#installment-prices-for-woocommerce-app strong {
+    font-weight: var(--font-weight-strong);
+}
+
+/*
+ * The one themeable seam: every colour and metric the screen draws is named here,
+ * and nothing is read from outside. `all: initial` cuts inheritance at the mount, so
+ * a value wp-admin (or anything else) sets on an ancestor never reaches inside. The
+ * document's direction and language still flow in: `all` leaves `direction` alone,
+ * and Blink's `-webkit-locale` (derived from `lang`, and used to pick font metrics)
+ * is inherited back explicitly, since `all` does reset that one.
+ *
+ * WHY these values: they reproduce the WordPress 7.1.1 admin (Modern, its default
+ * scheme) as the screen rendered it, measured off the rendered page. They are a copy
+ * on purpose: when core restyles, this screen keeps its look until the block changes.
+ */
+#installment-prices-for-woocommerce-app {
+    all: initial;
+    -webkit-locale: inherit;
+    display: block;
+
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    --font-code: Consolas, Monaco, monospace;
+
+    --background: #fff;
+    --foreground: oklch(27.8% 0.033 256.848);
+    --heading: #1d2327;
+    --description: #646970;
+    --muted-foreground: oklch(55.1% 0.027 264.364);
+    --subtle-foreground: oklch(44.6% 0.03 256.802);
+    --faint-foreground: oklch(70.7% 0.022 261.325);
+    --link: #3858e9;
+    --link-hover: #183ad6;
+
+    --primary: #3858e9;
+    --primary-hover: #2145e6;
+    --primary-active: #183ad6;
+    --primary-foreground: #fff;
+    --primary-tint-hover: rgb(56 88 233 / 0.04);
+    --primary-tint-active: rgb(56 88 233 / 0.08);
+    --destructive: oklch(57.7% 0.245 27.325);
+    --destructive-disabled: oklch(70.7% 0.022 261.325);
+    --destructive-disabled-border: oklch(87.2% 0.01 258.338);
+    --disabled: #e2e2e2;
+    --disabled-foreground: #8a8a8a;
+    --disabled-border: #d8d8d8;
+
+    --border: #c3c4c7;
+    --border-muted: oklch(92.8% 0.006 264.531);
+    --border-subtle: oklch(96.7% 0.003 264.542);
+    --card: #fff;
+    --row-hover: oklch(98.5% 0.002 247.839);
+
+    --input: #949494;
+    --input-hover: #1e1e1e;
+    --input-foreground: #1e1e1e;
+    --placeholder: #757575;
+    --input-disabled: #f0f0f0;
+    --input-disabled-border: #ccc;
+    --input-disabled-foreground: #949494;
+    --select-disabled: #f6f7f7;
+    --select-disabled-border: #dcdcde;
+    --select-disabled-foreground: #a7aaad;
+    --select-chevron: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%231e1e1e%22%2F%3E%3C%2Fsvg%3E");
+    --select-chevron-disabled: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23a0a5aa%22%2F%3E%3C%2Fsvg%3E");
+    --select-chevron-size: 16px 16px;
+    --select-disabled-opacity: 0.7;
+    --select-disabled-text-shadow: 0 1px 0 #fff;
+    --select-chevron-position: right 8px top 55%;
+    --select-chevron-position-rtl: left 8px top 55%;
+    --checkbox-border: #1e1e1e;
+
+    --tab-bg: #dcdcde;
+    --tab-foreground: #50575e;
+    --tab-hover-bg: #fff;
+    --tab-hover-foreground: #3c434a;
+    --tab-active-bg: #f0f0f0;
+    --tab-active-focus-bg: #f0f0f1;
+    --tab-active-foreground: #000;
+    --tab-gap: 0.5em;
+
+    --table-head-foreground: #2c3338;
+    --table-cell-foreground: #50575e;
+    --table-stripe: #f6f7f7;
+
+    --paragraph-margin: 1em;
+    --notice-foreground: #1e1e1e;
+    --notice-paragraph-margin: 0.5em;
+    --notice-error: #fcf0f0;
+    --notice-error-border: #cc1818;
+    --notice-warning: #fef8ee;
+    --notice-warning-border: #f0b849;
+    --notice-success: #eff9f1;
+    --notice-success-border: #4ab866;
+
+    --code: rgb(0 0 0 / 0.07);
+    --code-foreground: #50575e;
+
+    --badge-success: oklch(96.2% 0.044 156.743);
+    --badge-success-foreground: oklch(44.8% 0.119 151.328);
+    --badge-destructive: oklch(93.6% 0.032 17.717);
+    --badge-destructive-foreground: oklch(44.4% 0.177 26.899);
+
+    --tooltip-bg: oklch(21% 0.034 264.665);
+    --tooltip-foreground: #fff;
+    --overlay: rgb(0 0 0 / 0.5);
+    --countdown-success: oklch(62.7% 0.194 149.214);
+    --countdown-error: oklch(57.7% 0.245 27.325);
+
+    --font-weight-strong: 600;
+    --font-size-body: 13px;
+    --font-size-label: 14px;
+    --font-size-control: 14px;
+    --font-size-button-sm: 11px;
+    --font-size-tooltip: 12px;
+    --font-size-glyph: 18px;
+    --line-height-body: 1.4em;
+    --line-height-paragraph: 1.5;
+    --line-height-card: 1.4;
+    --line-height-cell: 1.5em;
+    --line-height-label: 20px;
+    --line-height-control: normal;
+    --line-height-select: 2.71428571;
+    /* WHY 2.92307, not core's 2.92307692: the build keeps six significant digits, and the
+       rounded 2.92308 lands a hair over 38px, which makes every button 1px taller. */
+    --line-height-button: 2.92307;
+    --line-height-button-sm: 2;
+    --line-height-tab: 1.71428571;
+    --line-height-table-head: 1.4em;
+    --line-height-notice: 1.54;
+    --line-height-tooltip: 19.5px;
+    --line-height-glyph: 28px;
+    /* Core enlarges text and controls at its 782px breakpoint. WHY 2.71428, not core's
+       2.71428571: as with the desktop button, rounding up would make mobile buttons 1px taller. */
+    --font-size-mobile: 14px;
+    --font-size-control-mobile: 16px;
+    --line-height-button-mobile: 2.71428;
+    --line-height-select-mobile: 2.5;
+    --line-height-notice-mobile: 175%;
+
+    --radius-control-size: 2px;
+    --radius-row-size: 6px;
+    --radius-badge-size: 4px;
+    --radius-dialog-size: 8px;
+
+    --shadow-card-value: 0 1px 1px rgb(0 0 0 / 0.04);
+    --shadow-focus-value: 0 0 0 2px var(--primary);
+    --shadow-focus-primary-value: 0 0 0 2px var(--primary), inset 0 0 0 1px var(--primary-foreground);
+    --shadow-focus-checkbox-value: 0 0 0 2px var(--background), 0 0 0 4px var(--primary);
+    --shadow-rule-top-value: inset 0 1px 0 var(--border);
+    --shadow-tooltip-value: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-dialog-value: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+    --ease-core-value: ease-in-out;
+
+    --spacing-unit: 4px;
+    --control-height: 40px;
+    --control-height-sm: 24px;
+    --button-padding-x: 16px;
+    --button-padding-x-sm: 8px;
+    --button-padding-x-mobile: 14px;
+    --dismiss-size: 34px;
+    --notice-dismissible-padding: 48px;
+    --notice-dismissible-padding-mobile: 46px;
+    --checkbox-size-mobile: 25px;
+    --checkbox-tick-size: 21px;
+    --checkbox-tick-size-mobile: 30px;
+    --card-min-width: 255px;
+    --select-max-width: 400px;
+    --tooltip-max-width: min(320px, calc(100vw - 32px));
+    --toast-max-width: calc(100vw - 32px);
+    --screen-max-width: 768px;
+    --dialog-max-width: 512px;
+
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--foreground);
+    -webkit-font-smoothing: subpixel-antialiased;
+}

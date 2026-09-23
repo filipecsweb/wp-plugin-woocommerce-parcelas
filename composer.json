@@ -1,24 +1,67 @@
 {
-  "name": "filipecsweb/wc-parcelas",
-  "type": "project",
-  "prefer-stable": true,
-  "authors": [
-    {
-      "name": "Filipe Seabra"
+    "name": "filipecsweb/installment-prices-for-woocommerce",
+    "description": "Show installment and cash prices on WooCommerce product lists and product pages. Built on a bundled, plugin-scoped Foundation kernel.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.2",
+        "psr/container": "^2.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.10",
+        "wp-coding-standards/wpcs": "^3.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "phpstan/phpstan": "^2.0",
+        "szepeviktor/phpstan-wordpress": "^2.0",
+        "php-stubs/wordpress-stubs": "^7.0",
+        "php-stubs/woocommerce-stubs": "^11.1",
+        "pestphp/pest": "^2.34",
+        "brain/monkey": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "InstallmentPricesForWooCommerce\\Foundation\\": "foundation/src/",
+            "InstallmentPricesForWooCommerce\\Module\\AdminUi\\": "modules/admin-ui/src/",
+            "InstallmentPricesForWooCommerce\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "InstallmentPricesForWooCommerce\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.2"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "cs": "phpcs",
+        "cbf": "phpcbf",
+        "stan": "phpstan analyse --memory-limit=1G",
+        "test": "pest",
+        "versions": "bin/check-version-consistency.sh",
+        "since": "bin/check-since-tags.sh",
+        "qa": [
+            "@versions",
+            "@since",
+            "@cs",
+            "@stan",
+            "@test"
+        ]
+    },
+    "scripts-descriptions": {
+        "cs": "Run PHPCS (WordPress Coding Standards + security sniffs).",
+        "cbf": "Auto-fix PHPCS violations.",
+        "stan": "Run PHPStan at max level with WordPress and WooCommerce stubs.",
+        "test": "Run the Pest unit suite.",
+        "versions": "Check the min PHP / min WP declarations agree across header, readme, composer, phpcs, phpstan and CI.",
+        "since": "Check every file in the docblock-tagged PHP/JS tiers declares an @since tag.",
+        "qa": "Run versions + since + cs + stan + test (full quality gate)."
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "WcParcelas\\App\\": "app/"
-    }
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "platform": {
-      "php": "7.4"
-    }
-  },
-  "require": {
-    "league/container": "^4.2"
-  }
 }
