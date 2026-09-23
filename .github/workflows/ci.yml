@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
 
+# Every job only reads the checkout; third-party install scripts run in these jobs.
+permissions:
+  contents: read
+
 # Supersede in-flight runs for the same ref when a newer push/PR-update arrives.
 concurrency:
   group: ci-${{ github.ref }}
@@ -179,6 +183,8 @@ jobs:
 
       # CONTRACT: every E2E_<NAME> repository secret reaches the specs as <NAME>, and no
       # other secret does. Each stays a secret of its own, so the runner still masks it.
+      # GOTCHA: toJSON(secrets) holds every secret this job can read, so credentials that
+      # must never reach it (the wp.org SVN pair) live in the deploy jobs' environment.
       - name: Export the E2E secrets
         env:
           SECRETS: ${{ toJSON(secrets) }}
@@ -194,8 +200,10 @@ jobs:
           WP_ADMIN_USER: admin
           WP_ADMIN_PASS: password
 
+      # WHY private only: a public repo's artifacts are world-readable, and a failure's
+      # output can hold what a spec typed or sent, the E2E secrets included.
       - name: Upload the failure traces
-        if: failure()
+        if: failure() && github.event.repository.private
         uses: actions/upload-artifact@v7
         with:
           name: e2e-results-${{ matrix.wp }}

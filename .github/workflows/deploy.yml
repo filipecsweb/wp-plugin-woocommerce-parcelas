@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     # `published` also fires for pre-releases — never ship those to wp.org.
     if: ${{ !github.event.release.prerelease }}
+    # The SVN credentials are this environment's secrets, not the repository's, so no
+    # other job (the E2E job reads every secret it can) ever sees them.
+    environment: wporg
     steps:
       - uses: actions/checkout@v5
 
