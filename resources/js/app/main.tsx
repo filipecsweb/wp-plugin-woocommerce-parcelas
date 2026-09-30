@@ -12,7 +12,7 @@ import '../../css/app.css'
 
 declare global {
   interface Window {
-    // AdminServiceProvider::config(), localized on the entry's handle.
+    // AdminServiceProvider::config(), printed as JSON before the entry's script.
     InstallmentPricesConfig: Config
   }
 }

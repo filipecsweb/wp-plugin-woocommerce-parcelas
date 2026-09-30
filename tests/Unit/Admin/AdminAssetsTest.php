@@ -23,6 +23,13 @@ beforeEach(function (): void {
     Functions\when('wp_set_script_translations')->alias(function (string ...$args): void {
         $this->translations[] = $args;
     });
+    $this->inline = [];
+    Functions\when('wp_json_encode')->alias(static fn (mixed $value, int $flags = 0): string|false => json_encode($value, $flags));
+    Functions\when('wp_add_inline_script')->alias(function (string ...$args): bool {
+        $this->inline[] = $args;
+
+        return true;
+    });
 });
 
 afterEach(function (): void {
@@ -45,11 +52,7 @@ it('registers the script translations from the text domain directory', function 
     ]);
 });
 
-it('builds the localized data only on its own screen', function (): void {
-    $localized = [];
-    Functions\when('wp_localize_script')->alias(function (mixed ...$args) use (&$localized): void {
-        $localized[] = $args;
-    });
+it('builds the global data only on its own screen', function (): void {
     $builds = 0;
     $config = function () use (&$builds): array {
         $builds++;
@@ -61,8 +64,22 @@ it('builds the localized data only on its own screen', function (): void {
     expect($builds)->toBe(0);
 
     $this->assets->enqueueOnScreen('settings_page_x', 'settings_page_x', 'resources/js/app.tsx', 'plugin-app', 'PluginConfig', $config);
-    expect($builds)->toBe(1)
-        ->and($localized)->toBe([['plugin-app', 'PluginConfig', ['key' => 'value']]]);
+    expect($builds)->toBe(1);
+});
+
+it('prints the global data as JSON, so its scalars keep their types', function (): void {
+    $this->assets->enqueueOnScreen(
+        'settings_page_x',
+        'settings_page_x',
+        'resources/js/app.tsx',
+        'plugin-app',
+        'PluginConfig',
+        static fn (): array => ['flag' => false, 'count' => 2, 'name' => '</script>'],
+    );
+
+    expect($this->inline)->toBe([
+        ['plugin-app', 'var PluginConfig = {"flag":false,"count":2,"name":"\\u003C\\/script\\u003E"};', 'before'],
+    ]);
 });
 
 it('registers no translations without a text domain', function (): void {
