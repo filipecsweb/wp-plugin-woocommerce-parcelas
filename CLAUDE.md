@@ -58,7 +58,8 @@ false if the code were moved or reused.
 - **Upgrades run on a request, not on activation**: WordPress doesn't fire activation hooks
   on updates. `Settings::install()` stores 1.x's settings (or the defaults) the first time.
   1.x data is read, never deleted, until uninstall.
-- **Uninstall purges everything**, 1.x's option and product meta included (`Uninstaller`).
+- **Uninstall purges everything**, on every site of a network, 1.x's option and product
+  meta included (`Uninstaller`).
 - **Git branches:** never create or switch branches unless the user explicitly asks.
 - **Hooks via attributes** on the class that handles them, listed in its provider's
   `$subscribers` (the kernel's `AdminPage` hooks its own `register()` onto `admin_menu`).
