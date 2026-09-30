@@ -51,6 +51,13 @@ final class ProductDataTab
     private const NONCE_FIELD = Identity::SLUG . '-nonce';
 
     /**
+     * WHY 75: right after WooCommerce's last tab, Advanced (70).
+     *
+     * @since 2.0.0
+     */
+    private const TAB_PRIORITY = 75;
+
+    /**
      * WHY no bounds and any step: the panel is hidden while another tab is open, and
      * the browser then blocks the product's save, without a word, over a value its
      * fields' constraints reject. Overrides::sanitize() brings any value in bounds.
@@ -82,7 +89,7 @@ final class ProductDataTab
             'label'    => __('Installments', 'woocommerce-parcelas'),
             'target'   => self::PANEL_ID,
             'class'    => [],
-            'priority' => 75,
+            'priority' => self::TAB_PRIORITY,
         ];
 
         return $tabs;
