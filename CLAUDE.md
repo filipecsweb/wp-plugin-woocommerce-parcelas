@@ -107,9 +107,10 @@ Consequences (each one has bitten):
   roles, labels, `data-testid` and those attributes.
 
 The product editor's **Installments** tab is not React: it uses WooCommerce's own field
-helpers (`ProductDataTab`), so it matches the tabs around it. Its number fields carry no
-`min`/`max` and `step="any"`: the panel is hidden while another tab is open, and the browser
-then silently blocks the product's save over a value its constraints reject.
+helpers (`ProductDataTab`), so it matches the tabs around it. Its numbers are text fields
+(`inputmode="decimal"`), not number fields: the panel is hidden while another tab is open, and
+the browser then silently blocks the product's save over a value a number field rejects, even
+a half-typed one like "1e". `Overrides::sanitize()` reads whatever was typed.
 
 Definition of done for any change: `composer qa`, `npm run qa:js`, and the E2E suite green
 against a WordPress with WooCommerce (`npm run e2e`).

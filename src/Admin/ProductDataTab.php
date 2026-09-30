@@ -58,13 +58,14 @@ final class ProductDataTab
     private const TAB_PRIORITY = 75;
 
     /**
-     * WHY no bounds and any step: the panel is hidden while another tab is open, and
-     * the browser then blocks the product's save, without a word, over a value its
-     * fields' constraints reject. Overrides::sanitize() brings any value in bounds.
+     * WHY text fields, not number fields: the panel is hidden while another tab is
+     * open, and the browser then blocks the product's save, without a word, over a
+     * value a number field rejects, even a half-typed one like "1e".
+     * Overrides::sanitize() reads whatever was typed.
      *
      * @since 2.0.0
      */
-    private const NUMBER_ATTRIBUTES = ['step' => 'any'];
+    private const NUMBER_ATTRIBUTES = ['inputmode' => 'decimal'];
 
     /**
      * @since 2.0.0
@@ -125,7 +126,6 @@ final class ProductDataTab
         woocommerce_wp_text_input([
             'id'                => self::FIELDS['max'],
             'label'             => __('Maximum installments', 'woocommerce-parcelas'),
-            'type'              => 'number',
             'value'             => $own['max'] === null ? '' : (string) $own['max'],
             'placeholder'       => (string) $store['installments']['max'],
             'custom_attributes' => self::NUMBER_ATTRIBUTES,
@@ -149,7 +149,6 @@ final class ProductDataTab
         woocommerce_wp_text_input([
             'id'                => self::FIELDS['discount'],
             'label'             => __('Cash discount', 'woocommerce-parcelas'),
-            'type'              => 'number',
             'value'             => $own['discount'] === null ? '' : (string) $own['discount'],
             'placeholder'       => (string) $store['cash']['discount'],
             'custom_attributes' => self::NUMBER_ATTRIBUTES,
