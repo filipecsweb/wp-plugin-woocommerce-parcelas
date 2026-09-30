@@ -47,11 +47,13 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
   )
 }
 
+// GOTCHA: a kept-mounted hidden panel relies on data-hidden:hidden, not on preflight's
+// [hidden] rule: an important display utility passed in (tw:flex) would outrank that.
 function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"
-      className={cn("tw:outline-none tw:transition-opacity tw:data-starting-style:opacity-0", className)}
+      className={cn("tw:outline-none tw:transition-opacity tw:data-starting-style:opacity-0 tw:data-hidden:hidden", className)}
       {...props}
     />
   )
