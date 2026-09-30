@@ -164,6 +164,9 @@
     --shadow-dialog: var(--shadow-dialog-value);
 
     --ease-core: var(--ease-core-value);
+
+    --z-index-modal: var(--z-index-modal-value);
+    --z-index-toast: var(--z-index-toast-value);
 }
 
 /* Keyframe names are global to the document: a generic `spin` from any other stylesheet would replace ours. */
@@ -348,6 +351,11 @@
     --shadow-dialog-value: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 
     --ease-core-value: ease-in-out;
+
+    /* WHY: shadcn's z-50 sits under wp-admin's menu (9990) and toolbar (99999); 100000 is core's own modal level. */
+    --z-index-modal-value: 100000;
+    /* One above the modal, so a toast raised while the dialog is open shows over it. */
+    --z-index-toast-value: calc(var(--z-index-modal-value) + 1);
 
     --spacing-unit: 4px;
     --control-height: 40px;

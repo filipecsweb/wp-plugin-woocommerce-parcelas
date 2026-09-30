@@ -86,7 +86,9 @@ Consequences (each one has bitten):
 - **No `rem` in arbitrary values**: a rem follows the page's root font size, which the
   isolation spec changes on purpose. Use px.
 - **Everything portalled (Tooltip, Toast, Dialog) renders into the shared container**
-  from `usePortalContainer()` (`ui/portal.tsx`).
+  from `usePortalContainer()` (`ui/portal.tsx`); modal layers carry `tw:z-modal` and toasts
+  `tw:z-toast` (one above it), both from `app.css`'s z-index tokens, to clear wp-admin's menu
+  and toolbar.
 - **Core ships React 18:** a component passed to `render=` or given a ref needs
   `React.forwardRef`. `check:build` (part of `qa:js`) fails on a bundled React copy or on a
   CSS selector outside the mount — never weaken it.

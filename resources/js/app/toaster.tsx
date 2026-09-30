@@ -33,7 +33,7 @@ export function Toaster() {
       <Toast.Portal container={container}>
         <Toast.Viewport
           aria-label={__('Notifications', 'woocommerce-parcelas')}
-          className="tw:fixed tw:end-4 tw:bottom-4 tw:z-[100001] tw:flex tw:w-80 tw:max-w-(--toast-max-width) tw:flex-col tw:gap-2"
+          className="tw:fixed tw:end-4 tw:bottom-4 tw:z-toast tw:flex tw:w-80 tw:max-w-(--toast-max-width) tw:flex-col tw:gap-2"
         >
           <ToastList />
         </Toast.Viewport>

@@ -14,9 +14,6 @@ import { cn } from "@/ui/utils"
 import { Button } from "@/ui/button"
 import { usePortalContainer } from "@/ui/portal"
 
-// WHY: shadcn's z-50 sits under wp-admin's menu (9990) and toolbar (99999); 100000 is core's own modal level.
-const MODAL_Z = "tw:z-[100000]"
-
 // WHY trap-focus: focus stays in the dialog, while the page keeps its scrollbar and scroll, as core's modals do.
 function Dialog({ modal = "trap-focus", ...props }: DialogPrimitive.Root.Props) {
   return <DialogPrimitive.Root data-slot="dialog" modal={modal} {...props} />
@@ -30,7 +27,7 @@ function DialogContent({ className, children, ...props }: DialogPrimitive.Popup.
           shadow, as core's overlay does, so the shadow blends into the dim the same way. */}
       <DialogPrimitive.Viewport
         data-slot="dialog-overlay"
-        className={cn("tw:fixed tw:inset-0 tw:flex tw:items-center tw:justify-center tw:bg-overlay tw:p-4", MODAL_Z)}
+        className="tw:fixed tw:inset-0 tw:z-modal tw:flex tw:items-center tw:justify-center tw:bg-overlay tw:p-4"
       >
         <DialogPrimitive.Popup
           data-slot="dialog-content"
