@@ -54,9 +54,11 @@ const buttonVariants = cva("tw:[&_svg]:pointer-events-none tw:[&_svg]:shrink-0 t
 
 type Variant = NonNullable<VariantProps<typeof buttonVariants>["variant"]>
 
-// WHY the inner span: an adorned label (an icon or spinner beside the text) sits in an
+// WHY the inner span: a label with a second child (an icon, or a spinner slot) sits in an
 // inline-flex box aligned to the middle of the 38px line, which makes such a button 40.53px
-// tall; a plain-text one has no box and stays 40px, as core's do.
+// tall; a plain-text one has no box and stays 40px, as core's do. GOTCHA: Children.count
+// counts the `false` an idle `{busy && <Spinner />}` leaves, so the box, and with it the
+// height, stays while the spinner is hidden.
 const BOXED = new Set<Variant>(["default", "outline", "destructive"])
 
 const Button = React.forwardRef<
