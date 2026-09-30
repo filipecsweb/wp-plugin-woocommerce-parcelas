@@ -17,7 +17,9 @@ async function loginAsAdmin(page) {
  *  - settings  — Page Object bound to that page.
  *  - api       — REST client (page.request + the live nonce) for out-of-band state.
  *  - restore   — puts the saved settings back after the test, whatever it changed,
- *                so every spec is independent.
+ *                so every spec is independent. GOTCHA: Playwright sets a fixture up
+ *                when the first hook or test that names it runs, so name it in the
+ *                first one that changes the settings (a beforeEach, if one does).
  */
 export const test = base.extend({
   admin: async ({ page }, use) => {

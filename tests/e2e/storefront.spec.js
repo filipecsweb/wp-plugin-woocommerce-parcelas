@@ -20,13 +20,14 @@ const lines = (scope) => ({
 })
 
 test.describe('Storefront', () => {
-  test.beforeEach(async ({ api }) => {
+  // Named here, not in each test: restore must take its snapshot before this hook changes the settings.
+  test.beforeEach(async ({ api, restore }) => {
+    void restore
     await api.saveSettings(SETTINGS)
     await api.clearProductOverrides(PRODUCTS.simple.slug)
   })
 
-  test('a product page shows both lines', async ({ admin, restore }) => {
-    void restore
+  test('a product page shows both lines', async ({ admin }) => {
     await admin.goto(productPath(PRODUCTS.simple.slug))
     const { installments, cash } = lines(admin.locator('.installment-prices-for-woocommerce--single'))
 
@@ -37,16 +38,14 @@ test.describe('Storefront', () => {
     await expect(cash).toContainText(amount('90.00'))
   })
 
-  test('the minimum installment lowers the count', async ({ admin, api, restore }) => {
-    void restore
+  test('the minimum installment lowers the count', async ({ admin, api }) => {
     await api.saveSettings({ installments: { min_amount: 30 } })
     await admin.goto(productPath(PRODUCTS.simple.slug))
 
     await expect(lines(admin.locator('.installment-prices-for-woocommerce--single')).installments).toContainText('3 installments of')
   })
 
-  test('product lists show the lines too, "From" for a price range', async ({ admin, restore }) => {
-    void restore
+  test('product lists show the lines too, "From" for a price range', async ({ admin }) => {
     await admin.goto(SHOP_PATH)
 
     const simple = admin.locator('li', { hasText: PRODUCTS.simple.name }).locator('.installment-prices-for-woocommerce--loop')
@@ -56,8 +55,7 @@ test.describe('Storefront', () => {
     await expect(lines(variable).installments).toContainText(amount('5.00'))
   })
 
-  test('a chosen variation shows its own lines', async ({ admin, restore }) => {
-    void restore
+  test('a chosen variation shows its own lines', async ({ admin }) => {
     await admin.goto(productPath(PRODUCTS.variable.slug))
     await admin.getByLabel('Size').selectOption('Large')
 
@@ -66,8 +64,7 @@ test.describe('Storefront', () => {
     await expect(lines(variation).cash).toContainText(amount('72.00'))
   })
 
-  test('out-of-stock products show the lines only when allowed', async ({ admin, api, restore }) => {
-    void restore
+  test('out-of-stock products show the lines only when allowed', async ({ admin, api }) => {
     await admin.goto(productPath(PRODUCTS.outOfStock.slug))
     await expect(admin.locator('.installment-prices-for-woocommerce--single')).toHaveCount(0)
 
@@ -79,8 +76,7 @@ test.describe('Storefront', () => {
     await expect(lines(admin.locator('.installment-prices-for-woocommerce--single')).cash).toHaveCount(0)
   })
 
-  test('the style settings reach the page', async ({ admin, api, restore }) => {
-    void restore
+  test('the style settings reach the page', async ({ admin, api }) => {
     await api.saveSettings({ style: { installments: { single: { prefix: { color: '#cc1818', weight: '700' } } } } })
     await admin.goto(productPath(PRODUCTS.simple.slug))
 
@@ -89,16 +85,14 @@ test.describe('Storefront', () => {
     await expect(prefix).toHaveCSS('font-weight', '700')
   })
 
-  test('switching both lines off prints nothing', async ({ admin, api, restore }) => {
-    void restore
+  test('switching both lines off prints nothing', async ({ admin, api }) => {
     await api.saveSettings({ installments: { enabled: false }, cash: { enabled: false } })
     await admin.goto(productPath(PRODUCTS.simple.slug))
 
     await expect(admin.locator('.installment-prices-for-woocommerce')).toHaveCount(0)
   })
 
-  test('a product can set its own maximum and hide its cash price', async ({ admin, api, restore }) => {
-    void restore
+  test('a product can set its own maximum and hide its cash price', async ({ admin, api }) => {
     const id = await api.productId(PRODUCTS.simple.slug)
 
     try {
@@ -121,8 +115,7 @@ test.describe('Storefront', () => {
     }
   })
 
-  test('a product saves with a maximum out of range left in its hidden tab', async ({ admin, api, restore }) => {
-    void restore
+  test('a product saves with a maximum out of range left in its hidden tab', async ({ admin, api }) => {
     const id = await api.productId(PRODUCTS.simple.slug)
 
     try {
