@@ -23,6 +23,17 @@ test.describe('settings shell', () => {
     await expect(settings.generalTab).toHaveAttribute('aria-selected', 'false')
   })
 
+  test('keeps the desktop tabs at phone width', async ({ admin, settings }) => {
+    await admin.setViewportSize({ width: 480, height: 900 })
+
+    // WHY the landing tab: a clicked tab grows its bottom border through a transition, so measuring it races.
+    const tabList = admin.getByRole('tablist')
+    await expect(tabList).toHaveCSS('border-bottom-width', '1px')
+    const list = await tabList.boundingBox()
+    const active = await settings.generalTab.boundingBox()
+    expect(active.y + active.height).toBeCloseTo(list.y + list.height, 1)
+  })
+
   test('hides admin notices from other code on this screen only', async ({ admin }) => {
     // CONTRACT: the cookie and id are the ones tests/e2e/support/foreign-notice.php reads and prints.
     await admin.context().addCookies([{ name: 'installment_prices_for_woocommerce_e2e_notice', value: '1', url: admin.url() }])

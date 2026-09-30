@@ -60,8 +60,10 @@ function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
   )
 }
 
+// GOTCHA: below 782px a boxed button grows taller than the title and takes core's 4px bottom
+// margin; the halved bottom padding keeps it centred with the same 8px all round.
 function CardAction({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="card-action" className={cn("tw:flex tw:shrink-0 tw:items-center tw:pe-2", className)} {...props} />
+  return <div data-slot="card-action" className={cn("tw:flex tw:shrink-0 tw:items-center tw:py-2 tw:pe-2 tw:mobile:pb-1", className)} {...props} />
 }
 
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {

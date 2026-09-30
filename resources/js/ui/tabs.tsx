@@ -22,7 +22,7 @@ function TabsList({ className, ...props }: TabsPrimitive.List.Props) {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      className={cn("tw:flex tw:items-start tw:border-b tw:border-solid tw:border-border tw:pt-2.25 tw:narrow:border-b-0", className)}
+      className={cn("tw:flex tw:items-start tw:border-b tw:border-solid tw:border-border tw:pt-2.25", className)}
       {...props}
     />
   )
@@ -40,7 +40,6 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
         "tw:hover:bg-tab-hover-bg tw:hover:text-tab-hover-foreground tw:focus:rounded-control tw:focus:bg-tab-hover-bg tw:focus:text-tab-hover-foreground tw:focus:shadow-focus tw:focus:outline-2 tw:focus:outline-solid tw:focus:outline-transparent tw:focus:active:shadow-none",
         "tw:data-active:-mb-px tw:data-active:border-b tw:data-active:border-b-tab-active-bg tw:data-active:bg-tab-active-bg tw:data-active:text-tab-active-foreground",
         "tw:data-active:focus:border-b-tab-active-focus-bg tw:data-active:focus:bg-tab-active-focus-bg",
-        "tw:narrow:ms-0 tw:narrow:me-2.5 tw:narrow:mt-2.5 tw:narrow:border-b tw:narrow:border-b-border tw:narrow:data-active:mb-0 tw:narrow:data-active:border-b-border",
         className
       )}
       {...props}
