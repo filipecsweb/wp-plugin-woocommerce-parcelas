@@ -51,6 +51,15 @@ final class ProductDataTab
     private const NONCE_FIELD = Identity::SLUG . '-nonce';
 
     /**
+     * WHY no bounds and any step: the panel is hidden while another tab is open, and
+     * the browser then blocks the product's save, without a word, over a value its
+     * fields' constraints reject. Overrides::sanitize() brings any value in bounds.
+     *
+     * @since 2.0.0
+     */
+    private const NUMBER_ATTRIBUTES = ['step' => 'any'];
+
+    /**
      * @since 2.0.0
      */
     public function __construct(
@@ -112,7 +121,7 @@ final class ProductDataTab
             'type'              => 'number',
             'value'             => $own['max'] === null ? '' : (string) $own['max'],
             'placeholder'       => (string) $store['installments']['max'],
-            'custom_attributes' => ['min' => (string) Settings::MIN_INSTALLMENTS, 'step' => '1'],
+            'custom_attributes' => self::NUMBER_ATTRIBUTES,
             'desc_tip'          => true,
             'description'       => sprintf(
                 /* translators: 1: fewest installments allowed; 2: most installments allowed. */
@@ -136,7 +145,7 @@ final class ProductDataTab
             'type'              => 'number',
             'value'             => $own['discount'] === null ? '' : (string) $own['discount'],
             'placeholder'       => (string) $store['cash']['discount'],
-            'custom_attributes' => ['min' => '0', 'step' => 'any'],
+            'custom_attributes' => self::NUMBER_ATTRIBUTES,
             'desc_tip'          => true,
             'description'       => __('Leave blank to use the store setting.', 'woocommerce-parcelas'),
         ]);

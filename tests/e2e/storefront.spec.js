@@ -120,4 +120,22 @@ test.describe('Storefront', () => {
       await api.clearProductOverrides(PRODUCTS.simple.slug)
     }
   })
+
+  test('a product saves with a maximum out of range left in its hidden tab', async ({ admin, api, restore }) => {
+    void restore
+    const id = await api.productId(PRODUCTS.simple.slug)
+
+    try {
+      await admin.goto(editProductPath(id))
+      await admin.locator('.installment-prices-for-woocommerce_options a').dispatchEvent('click')
+      await admin.locator('#installment-prices-for-woocommerce-product-data').getByLabel('Maximum installments').fill('1')
+      await admin.locator('.general_options a').dispatchEvent('click')
+      await Promise.all([admin.waitForURL(/[?&]message=\d+/), admin.locator('#publish').dispatchEvent('click')])
+
+      await admin.goto(productPath(PRODUCTS.simple.slug))
+      await expect(lines(admin.locator('.installment-prices-for-woocommerce--single')).installments).toContainText('Up to 2 installments of')
+    } finally {
+      await api.clearProductOverrides(PRODUCTS.simple.slug)
+    }
+  })
 })
