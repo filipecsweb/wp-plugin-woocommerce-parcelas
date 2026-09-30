@@ -56,6 +56,21 @@ describe('App', () => {
     expect(within(card('Installment price')).getByLabelText<HTMLInputElement>('Maximum installments').value).toBe('2')
   })
 
+  it('keeps what is typed while a save is on its way', async () => {
+    const api = renderApp()
+    let respond: (value: unknown) => void = () => {}
+    api.mockReturnValueOnce(new Promise((resolve) => (respond = resolve)))
+    const suffix = () => within(card('Installment price')).getByLabelText<HTMLInputElement>('Text after')
+
+    fireEvent.click(saveButton())
+    fireEvent.change(suffix(), { target: { value: 'no interest' } })
+    respond(settings)
+
+    await waitFor(() => expect(root().busySave).toBe('false'))
+    expect(suffix().value).toBe('no interest')
+    expect(root().dirty).toBe('true')
+  })
+
   it('warns when the server clears a style value it couldn’t read', async () => {
     const api = renderApp()
     api.mockResolvedValueOnce(settings)

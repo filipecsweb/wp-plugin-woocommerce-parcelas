@@ -98,7 +98,10 @@ export type Action =
   | { type: 'placement'; context: Context; patch: Partial<Placement> }
   | { type: 'style'; kind: Kind; context: Context; part: Part; patch: Partial<PartStyle> }
   | { type: 'busy'; value: boolean }
-  | { type: 'saved'; settings: Settings }
+  | { type: 'saved'; sent: Settings; settings: Settings }
+
+// "10" typed into a field that held 10 is no change.
+const comparable = (settings: Settings) => JSON.stringify(settings, (_key, value: unknown) => (typeof value === 'number' ? String(value) : value))
 
 export function initialState(cfg: Config): State {
   return { saved: cfg.settings, draft: cfg.settings, busy: false }
@@ -122,13 +125,11 @@ export function reducer(state: State, action: Action): State {
     case 'busy':
       return { ...state, busy: action.value }
     case 'saved':
-      // The server's copy is the validated one (e.g. a maximum below 2 comes back as 2).
-      return { ...state, saved: action.settings, draft: action.settings }
+      // The server's copy is the validated one (e.g. a maximum below 2 comes back as 2),
+      // unless the fields changed while it was on its way.
+      return { ...state, saved: action.settings, draft: comparable(draft) === comparable(action.sent) ? action.settings : draft }
   }
 }
-
-// "10" typed into a field that held 10 is no change.
-const comparable = (settings: Settings) => JSON.stringify(settings, (_key, value: unknown) => (typeof value === 'number' ? String(value) : value))
 
 export const isDirty = (s: State): boolean => comparable(s.saved) !== comparable(s.draft)
 
@@ -155,7 +156,7 @@ export function createActions(dispatch: Dispatch<Action>, api: Api, notify: Noti
       dispatch({ type: 'busy', value: true })
       try {
         const settings = await api<Settings>('POST', '/settings', draft)
-        dispatch({ type: 'saved', settings })
+        dispatch({ type: 'saved', sent: draft, settings })
         notify('success', __('Settings saved.', 'woocommerce-parcelas'))
         if (clearedStyles(draft, settings)) {
           notify('error', __('Some style values weren’t valid, so they were cleared. Use colors like #1e1e1e and sizes like 18px or 1.2em.', 'woocommerce-parcelas'))
