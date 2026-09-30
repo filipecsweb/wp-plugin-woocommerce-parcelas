@@ -59,7 +59,7 @@ final class Settings
     ];
 
     /**
-     * An empty value leaves the theme's own alignment, weight or discount in place.
+     * An empty value leaves the theme's own alignment or weight in place.
      *
      * @since 2.0.0
      */
@@ -236,7 +236,9 @@ final class Settings
 
     /**
      * The admin screen's options for each choice field. Translated, so call it no
-     * earlier than init. CONTRACT: each list's values are its constant above, in order.
+     * earlier than init. WHY the values repeat the constants above: sanitize() runs
+     * before init, where no label can be translated. SettingsTest holds each list to
+     * its constant, values and order.
      *
      * @since 2.0.0
      *

@@ -1,7 +1,7 @@
 /**
  * REST client for the plugin's own routes, on core's apiFetch (root URL and nonce
- * middlewares come from wp-admin). Failures are normalised to one shape so callers
- * route them (errors.ts) without re-reading the response.
+ * middlewares come from wp-admin). Failures are normalised to one shape, so callers
+ * read them without re-reading the response.
  *
  * @since 2.0.0
  */
