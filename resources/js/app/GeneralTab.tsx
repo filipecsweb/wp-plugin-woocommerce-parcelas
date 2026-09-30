@@ -18,8 +18,12 @@ interface Props {
 export default function GeneralTab({ cfg, draft, actions }: Props) {
   const { installments, cash } = draft
   const inCurrency = (label: string) =>
-    /* translators: 1: a field label; 2: the store's currency symbol. */
-    sprintf(__('%1$s (%2$s)', 'woocommerce-parcelas'), label, cfg.currency)
+    sprintf(
+      /* translators: 1: a field label; 2: the store's currency symbol. */
+      __('%1$s (%2$s)', 'woocommerce-parcelas'),
+      label,
+      cfg.currency
+    )
 
   return (
     <>
