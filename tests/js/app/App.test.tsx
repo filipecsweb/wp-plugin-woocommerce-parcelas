@@ -100,3 +100,16 @@ describe('App', () => {
     expect(within(footer).getByRole('link', { name: 'Get support' }).getAttribute('href')).toBe(cfg.supportUrl)
   })
 })
+
+describe('App portals', () => {
+  it('never portals into document.body, not even before the shared container resolves', () => {
+    const observer = new MutationObserver(() => {})
+    observer.observe(document.body, { childList: true })
+
+    const { container } = render(<App cfg={cfg} api={mockApi() as Api} />)
+    const added = observer.takeRecords().flatMap((record) => [...record.addedNodes])
+    observer.disconnect()
+
+    expect(added.filter((node) => node !== container)).toEqual([])
+  })
+})

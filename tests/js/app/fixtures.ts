@@ -1,6 +1,8 @@
+import { createElement, type ReactNode } from 'react'
 import { vi } from 'vitest'
 import type { Api } from '@/shared/api'
 import type { Config, PartStyle, Settings } from '@/app/store'
+import { PortalContainer } from '@/ui/portal'
 
 const blank: PartStyle = { color: '', weight: '', size: '' }
 const context = () => ({ prefix: { ...blank }, amount: { ...blank }, suffix: { ...blank } })
@@ -34,3 +36,6 @@ export const cfg: Config = {
 
 // vi.fn<Api>() drops Api's generic, so the mock is typed on its parameters and cast back.
 export const mockApi = () => vi.fn<(...args: Parameters<Api>) => Promise<unknown>>()
+
+// Portalled primitives wait for the shared container, which only App provides.
+export const PortalHost = ({ children }: { children: ReactNode }) => createElement(PortalContainer.Provider, { value: document.body }, children)

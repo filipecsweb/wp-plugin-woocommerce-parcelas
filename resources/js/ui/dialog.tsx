@@ -25,7 +25,7 @@ function Dialog({ modal = "trap-focus", ...props }: DialogPrimitive.Root.Props) 
 function DialogContent({ className, children, ...props }: DialogPrimitive.Popup.Props) {
   const container = usePortalContainer()
   return (
-    <DialogPrimitive.Portal data-slot="dialog-portal" container={container ?? undefined}>
+    <DialogPrimitive.Portal data-slot="dialog-portal" container={container}>
       {/* WHY the dim is on the viewport, not a Backdrop: one layer holds the dim and the panel's
           shadow, as core's overlay does, so the shadow blends into the dim the same way. */}
       <DialogPrimitive.Viewport

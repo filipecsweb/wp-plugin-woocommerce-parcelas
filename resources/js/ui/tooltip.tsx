@@ -49,7 +49,7 @@ function TooltipContent({
 }: TooltipPrimitive.Popup.Props & Pick<TooltipPrimitive.Positioner.Props, "align" | "side" | "sideOffset">) {
   const container = usePortalContainer()
   return (
-    <TooltipPrimitive.Portal container={container ?? undefined}>
+    <TooltipPrimitive.Portal container={container}>
       <TooltipPrimitive.Positioner positionMethod="fixed" align={align} side={side} sideOffset={sideOffset} collisionPadding={VIEWPORT_MARGIN_PX} className="tw:z-20">
         {/* content-box: the width cap applies to the text, and the padding adds to it. */}
         <TooltipPrimitive.Popup
