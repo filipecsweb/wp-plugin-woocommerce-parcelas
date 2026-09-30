@@ -50,11 +50,11 @@ npm ci
 npm run build               # emits public/build/ (entries + .vite/manifest.json)
 ```
 
-Then symlink the plugin folder into a site's `wp-content/plugins/` as
+Then, from the plugin folder, symlink it into a site's `wp-content/plugins/` as
 `woocommerce-parcelas` and activate it:
 
 ```bash
-ln -s ~/dev/woocommerce-parcelas ~/Herd/mysite/wp-content/plugins/woocommerce-parcelas
+ln -s "$PWD" ~/Herd/mysite/wp-content/plugins/woocommerce-parcelas
 ```
 
 The settings live under **WooCommerce → Installment Prices**.

@@ -6,7 +6,7 @@ the plugin's own namespace so every shipped class is unique to this plugin, per 
 unique-prefix rule), opt-in features in `modules/` (namespace
 `InstallmentPricesForWooCommerce\Module\…`), and this plugin's own code in `src/` (namespace
 `InstallmentPricesForWooCommerce\`). The kernel and the admin screen's UI kit are copies of
-FastCGI Cache for Ploi's (`~/dev/fastcgi-cache-for-ploi`); keep them diffable against it. Read
+FastCGI Cache for Ploi's; keep them diffable against it. Read
 this before changing anything. When a rule here conflicts with a habit or a quick shortcut, the
 rule wins.
 
