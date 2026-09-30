@@ -181,7 +181,7 @@ final class Settings
         $cash         = self::section($in, 'cash');
         $placement    = self::section($in, 'placement');
         $discountType = self::choice($cash['discount_type'] ?? null, self::DISCOUNT_TYPES, 'percent');
-        $discount     = self::amount($cash['discount'] ?? 0);
+        $discount     = self::amount($cash['discount'] ?? null) ?? 0.0;
 
         return [
             'installments' => [
@@ -189,7 +189,7 @@ final class Settings
                 'prefix'       => self::text($installments['prefix'] ?? ''),
                 'max'          => self::maxInstallments($installments['max'] ?? null) ?? self::MIN_INSTALLMENTS,
                 'suffix'       => self::text($installments['suffix'] ?? ''),
-                'min_amount'   => self::amount($installments['min_amount'] ?? 0),
+                'min_amount'   => self::amount($installments['min_amount'] ?? null) ?? 0.0,
                 'out_of_stock' => self::flag($installments['out_of_stock'] ?? false),
             ],
             'cash'         => [
@@ -210,16 +210,16 @@ final class Settings
 
     /**
      * An amount as a store owner types it: a decimal comma is accepted (1.x stored
-     * amounts that way, e.g. "5,95"); anything unreadable, negative or too large to
-     * store (e.g. "1e400", which no JSON can hold) is 0.
+     * amounts that way, e.g. "5,95"), and a negative one is 0; null when $value isn't
+     * a number or is too large to store (e.g. "1e400", which no JSON can hold).
      *
      * @since 2.0.0
      */
-    public static function amount(mixed $value): float
+    public static function amount(mixed $value): ?float
     {
         $number = is_string($value) ? str_replace(',', '.', trim($value)) : $value;
 
-        return is_numeric($number) && is_finite((float) $number) ? max(0.0, (float) $number) : 0.0;
+        return is_numeric($number) && is_finite((float) $number) ? max(0.0, (float) $number) : null;
     }
 
     /**

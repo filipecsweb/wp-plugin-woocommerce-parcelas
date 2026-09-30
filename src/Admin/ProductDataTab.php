@@ -58,15 +58,6 @@ final class ProductDataTab
     private const TAB_PRIORITY = 75;
 
     /**
-     * WHY no bounds and any step: the panel is hidden while another tab is open, and
-     * the browser then blocks the product's save, without a word, over a value its
-     * fields' constraints reject. Overrides::sanitize() brings any value in bounds.
-     *
-     * @since 2.0.0
-     */
-    private const NUMBER_ATTRIBUTES = ['step' => 'any'];
-
-    /**
      * @since 2.0.0
      */
     public function __construct(
@@ -115,6 +106,10 @@ final class ProductDataTab
         echo '<div id="' . esc_attr(self::PANEL_ID) . '" class="panel woocommerce_options_panel hidden">';
         wp_nonce_field(self::NONCE_ACTION, self::NONCE_FIELD);
 
+        // WHY text fields, not number fields: the panel is hidden while another tab is
+        // open, and the browser then blocks the product's save, without a word, over a
+        // value a number field rejects, even a half-typed one like "1e".
+        // Overrides::sanitize() reads a value that isn't a number as the store setting.
         echo '<div class="options_group">';
         woocommerce_wp_checkbox([
             'id'          => self::FIELDS['installments_disabled'],
@@ -125,10 +120,9 @@ final class ProductDataTab
         woocommerce_wp_text_input([
             'id'                => self::FIELDS['max'],
             'label'             => __('Maximum installments', 'woocommerce-parcelas'),
-            'type'              => 'number',
             'value'             => $own['max'] === null ? '' : (string) $own['max'],
             'placeholder'       => (string) $store['installments']['max'],
-            'custom_attributes' => self::NUMBER_ATTRIBUTES,
+            'custom_attributes' => ['inputmode' => 'numeric'],
             'desc_tip'          => true,
             'description'       => sprintf(
                 /* translators: 1: fewest installments allowed; 2: most installments allowed. */
@@ -149,10 +143,10 @@ final class ProductDataTab
         woocommerce_wp_text_input([
             'id'                => self::FIELDS['discount'],
             'label'             => __('Cash discount', 'woocommerce-parcelas'),
-            'type'              => 'number',
             'value'             => $own['discount'] === null ? '' : (string) $own['discount'],
             'placeholder'       => (string) $store['cash']['discount'],
-            'custom_attributes' => self::NUMBER_ATTRIBUTES,
+            'data_type'         => 'decimal',
+            'custom_attributes' => ['inputmode' => 'decimal'],
             'desc_tip'          => true,
             'description'       => __('Leave blank to use the store setting.', 'woocommerce-parcelas'),
         ]);
