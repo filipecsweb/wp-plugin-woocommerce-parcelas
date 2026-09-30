@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace InstallmentPricesForWooCommerce\Storefront;
 
+use InstallmentPricesForWooCommerce\Identity;
 use InstallmentPricesForWooCommerce\Pricing\Calculator;
 use InstallmentPricesForWooCommerce\Pricing\DisplayPrice;
 use InstallmentPricesForWooCommerce\Product\Overrides;
@@ -113,7 +114,7 @@ final class Renderer
             }
         }
 
-        return $lines === '' ? '' : sprintf('<div class="installment-prices installment-prices--%s">%s</div>', esc_attr($context), $lines);
+        return $lines === '' ? '' : sprintf('<div class="%1$s %1$s--%2$s">%3$s</div>', Identity::SLUG, esc_attr($context), $lines);
     }
 
     /**
@@ -139,16 +140,16 @@ final class Renderer
         $parts = [];
 
         if ($prefix !== '') {
-            $parts[] = sprintf('<span class="installment-prices__prefix">%s</span>', esc_html($prefix));
+            $parts[] = sprintf('<span class="%s__prefix">%s</span>', Identity::SLUG, esc_html($prefix));
         }
 
-        $parts[] = sprintf('<span class="installment-prices__amount">%s</span>', wc_price($amount));
+        $parts[] = sprintf('<span class="%s__amount">%s</span>', Identity::SLUG, wc_price($amount));
 
         if ($suffix !== '') {
-            $parts[] = sprintf('<span class="installment-prices__suffix">%s</span>', esc_html($suffix));
+            $parts[] = sprintf('<span class="%s__suffix">%s</span>', Identity::SLUG, esc_html($suffix));
         }
 
-        return sprintf('<p class="price installment-prices__%s">%s</p>', esc_attr($kind), implode(' ', $parts));
+        return sprintf('<p class="price %s__%s">%s</p>', Identity::SLUG, esc_attr($kind), implode(' ', $parts));
     }
 
     /**

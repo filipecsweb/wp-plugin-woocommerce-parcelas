@@ -8,7 +8,7 @@ import { expect } from '@playwright/test'
 export class SettingsPage {
   constructor(page) {
     this.page = page
-    this.root = page.locator('.installment-prices-admin')
+    this.root = page.locator('.installment-prices-for-woocommerce-admin')
 
     this.heading = page.getByRole('heading', { name: 'Installment Prices for WooCommerce' })
     this.generalTab = page.getByRole('tab', { name: 'General' })

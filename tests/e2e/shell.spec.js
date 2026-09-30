@@ -43,7 +43,7 @@ test.describe('settings shell', () => {
     await expect(notice, 'the fixture notice is missing: run tests/e2e/setup-site.sh against this site').toBeVisible()
 
     await admin.goto(SETTINGS_PATH)
-    await expect(admin.locator('.installment-prices-admin')).toBeVisible()
+    await expect(admin.locator('.installment-prices-for-woocommerce-admin')).toBeVisible()
     await expect(notice).toHaveCount(0)
   })
 

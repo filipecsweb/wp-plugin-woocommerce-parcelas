@@ -16,7 +16,9 @@ rule wins.
   to match the slug) keep it. Never rename any of them — a renamed main file deactivates the
   plugin on every site at update.
 - **`installment-prices-for-woocommerce`** (`Identity::SLUG`) is everything the code names:
-  options, product meta, hooks, REST routes, asset handles, CSS classes, the React mount.
+  options, product meta, hooks, REST routes, asset handles, the storefront's CSS classes,
+  the product tab's field names, the React mount and its root class, and the JS config
+  global. Derive it from `Identity::SLUG` wherever PHP can; there is no shorter prefix.
   `Plugin::create(__FILE__, Identity::SLUG)` hands it to the kernel.
 
 ## Code principles
@@ -96,7 +98,7 @@ Consequences (each one has bitten):
   CSS selector outside the mount — never weaken it.
 - **Strings:** `__()` from `@wordpress/i18n` with the plugin text domain, only in `app/`
   (never in the kit's `ui/`). Translating: CONTRIBUTING.md → Translations.
-- **Root contract:** React renders `.installment-prices-admin` with the `data-*` attributes
+- **Root contract:** React renders `.installment-prices-for-woocommerce-admin` with the `data-*` attributes
   as plain props; the E2E page object (`tests/e2e/support/settings-page.js`) reads only
   roles, labels, `data-testid` and those attributes.
 

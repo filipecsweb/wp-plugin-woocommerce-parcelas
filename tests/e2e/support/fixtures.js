@@ -23,7 +23,7 @@ export const test = base.extend({
   admin: async ({ page }, use) => {
     await loginAsAdmin(page)
     await page.goto(SETTINGS_PATH)
-    await expect(page.locator('.installment-prices-admin')).toBeVisible()
+    await expect(page.locator('.installment-prices-for-woocommerce-admin')).toBeVisible()
     await use(page)
   },
 

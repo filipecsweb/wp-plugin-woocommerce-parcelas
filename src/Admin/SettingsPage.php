@@ -130,15 +130,17 @@ final class SettingsPage extends AdminPage
             $hookSuffix,
             'resources/js/app/main.tsx',
             Identity::SLUG . '-app',
-            'InstallmentPricesConfig',
+            'InstallmentPricesForWooCommerceConfig',
             $this->config(...),
             $this->textDomain
         );
     }
 
     /**
-     * CONTRACT: the keys are the Config type in resources/js/app/store.ts; keep the
-     * two in step.
+     * CONTRACT: resources/js/app/main.tsx reads this as window.InstallmentPricesForWooCommerceConfig,
+     * and the keys are the Config type in resources/js/app/store.ts; keep the three in
+     * step. WHY the support link takes the text domain: wordpress.org requires it to
+     * match the plugin's slug there.
      *
      * @since 2.0.0
      *
@@ -152,7 +154,7 @@ final class SettingsPage extends AdminPage
             'settings'      => $this->settings->all(),
             'choices'       => Settings::choices(),
             'currency'      => html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
-            'supportUrl'    => 'https://wordpress.org/support/plugin/woocommerce-parcelas/',
+            'supportUrl'    => sprintf('https://wordpress.org/support/plugin/%s/', $this->plugin->textDomain()),
         ];
     }
 

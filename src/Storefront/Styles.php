@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace InstallmentPricesForWooCommerce\Storefront;
 
+use InstallmentPricesForWooCommerce\Identity;
 use InstallmentPricesForWooCommerce\Settings\Settings;
 
 /**
@@ -61,7 +62,7 @@ final class Styles
         $rules    = [];
 
         foreach (Settings::CONTEXTS as $context) {
-            $scope = '.installment-prices--' . $context;
+            $scope = '.' . Identity::SLUG . '--' . $context;
             $align = $settings['placement'][$context]['align'];
 
             if ($align !== '') {
@@ -84,7 +85,7 @@ final class Styles
                         continue;
                     }
 
-                    $selector = sprintf('%s .installment-prices__%s .installment-prices__%s', $scope, $kind, $part);
+                    $selector = sprintf('%1$s .%2$s__%3$s .%2$s__%4$s', $scope, Identity::SLUG, $kind, $part);
 
                     // Themes colour the .amount inside wc_price()'s markup directly.
                     if ($part === 'amount') {

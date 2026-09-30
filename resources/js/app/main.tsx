@@ -13,7 +13,7 @@ import '../../css/app.css'
 declare global {
   interface Window {
     // SettingsPage::config(), printed as JSON before the entry's script.
-    InstallmentPricesConfig: Config
+    InstallmentPricesForWooCommerceConfig: Config
   }
 }
 
@@ -21,7 +21,7 @@ declare global {
 const mount = document.getElementById('installment-prices-for-woocommerce-app')
 
 if (mount) {
-  const cfg = window.InstallmentPricesConfig
+  const cfg = window.InstallmentPricesForWooCommerceConfig
   createRoot(mount).render(
     <StrictMode>
       <App cfg={cfg} api={createApi(cfg.restNamespace)} />

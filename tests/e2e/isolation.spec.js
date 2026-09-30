@@ -67,6 +67,6 @@ test.describe('style isolation', () => {
   test('the page direction still reaches the screen', async ({ admin }) => {
     await admin.evaluate(() => document.documentElement.setAttribute('dir', 'rtl'))
 
-    expect(await admin.locator('.installment-prices-admin').evaluate((el) => getComputedStyle(el).direction)).toBe('rtl')
+    expect(await admin.locator('.installment-prices-for-woocommerce-admin').evaluate((el) => getComputedStyle(el).direction)).toBe('rtl')
   })
 })

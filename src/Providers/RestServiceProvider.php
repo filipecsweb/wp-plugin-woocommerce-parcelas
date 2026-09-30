@@ -6,6 +6,7 @@ namespace InstallmentPricesForWooCommerce\Providers;
 
 use InstallmentPricesForWooCommerce\Foundation\Provider\ServiceProvider;
 use InstallmentPricesForWooCommerce\Foundation\Security\Capability;
+use InstallmentPricesForWooCommerce\Identity;
 use InstallmentPricesForWooCommerce\Rest\SettingsController;
 use InstallmentPricesForWooCommerce\Settings\Settings;
 
@@ -17,7 +18,7 @@ final class RestServiceProvider extends ServiceProvider
     /**
      * @since 2.0.0
      */
-    public const NAMESPACE = 'installment-prices-for-woocommerce/v1';
+    public const NAMESPACE = Identity::SLUG . '/v1';
 
     /**
      * The capability that manages this plugin: WooCommerce gives it to shop managers

@@ -48,7 +48,7 @@ export default function App({ cfg, api }: Props) {
     <PortalContainer.Provider value={portal}>
       {/* CONTRACT: tests/e2e/support/settings-page.js finds the screen by this class and reads these data-* attributes. */}
       <div
-        className="installment-prices-admin tw:mt-4 tw:flex tw:max-w-(--screen-max-width) tw:flex-col tw:gap-5 tw:text-foreground"
+        className="installment-prices-for-woocommerce-admin tw:mt-4 tw:flex tw:max-w-(--screen-max-width) tw:flex-col tw:gap-5 tw:text-foreground"
         data-busy-save={String(state.busy)}
         data-dirty={String(dirty)}
       >

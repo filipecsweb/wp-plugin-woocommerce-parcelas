@@ -36,8 +36,8 @@ it('writes one rule per styled part, and reaches the amount WooCommerce marks up
     ]);
 
     expect(explode("\n", $css))->toBe([
-        '.installment-prices--loop .installment-prices__cash .installment-prices__prefix{color:#cc1818!important;font-size:18px!important}',
-        '.installment-prices--loop .installment-prices__cash .installment-prices__amount,.installment-prices--loop .installment-prices__cash .installment-prices__amount .amount{font-weight:700!important}',
-        '.installment-prices--single .price{text-align:center!important}',
+        '.installment-prices-for-woocommerce--loop .installment-prices-for-woocommerce__cash .installment-prices-for-woocommerce__prefix{color:#cc1818!important;font-size:18px!important}',
+        '.installment-prices-for-woocommerce--loop .installment-prices-for-woocommerce__cash .installment-prices-for-woocommerce__amount,.installment-prices-for-woocommerce--loop .installment-prices-for-woocommerce__cash .installment-prices-for-woocommerce__amount .amount{font-weight:700!important}',
+        '.installment-prices-for-woocommerce--single .price{text-align:center!important}',
     ]);
 });

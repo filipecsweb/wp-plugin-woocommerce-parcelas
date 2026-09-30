@@ -10,7 +10,7 @@ afterEach(() => {
   window.history.replaceState(null, '', '/')
 })
 
-const root = () => document.querySelector<HTMLElement>('.installment-prices-admin')!.dataset
+const root = () => document.querySelector<HTMLElement>('.installment-prices-for-woocommerce-admin')!.dataset
 const card = (title: string) => screen.getByRole('heading', { name: title }).closest<HTMLElement>('[data-slot="card"]')!
 const saveButton = () => screen.getByRole<HTMLButtonElement>('button', { name: /^(Save settings|Saving…)$/ })
 

@@ -6,6 +6,7 @@ namespace InstallmentPricesForWooCommerce\Admin;
 
 use InstallmentPricesForWooCommerce\Foundation\Hooks\Action;
 use InstallmentPricesForWooCommerce\Foundation\Hooks\Filter;
+use InstallmentPricesForWooCommerce\Identity;
 use InstallmentPricesForWooCommerce\Product\Overrides;
 use InstallmentPricesForWooCommerce\Settings\Settings;
 use WC_Product;
@@ -24,7 +25,7 @@ final class ProductDataTab
      *
      * @since 2.0.0
      */
-    public const PANEL_ID = 'installment_prices_product_data';
+    public const PANEL_ID = Identity::SLUG . '-product-data';
 
     /**
      * Posted field names, keyed by the Overrides field each one sets.
@@ -32,22 +33,22 @@ final class ProductDataTab
      * @since 2.0.0
      */
     private const FIELDS = [
-        'installments_disabled' => 'installment_prices_installments_disabled',
-        'max'                   => 'installment_prices_max',
-        'cash_disabled'         => 'installment_prices_cash_disabled',
-        'discount'              => 'installment_prices_discount',
-        'discount_type'         => 'installment_prices_discount_type',
+        'installments_disabled' => Identity::SLUG . '-installments-disabled',
+        'max'                   => Identity::SLUG . '-max',
+        'cash_disabled'         => Identity::SLUG . '-cash-disabled',
+        'discount'              => Identity::SLUG . '-discount',
+        'discount_type'         => Identity::SLUG . '-discount-type',
     ];
 
     /**
      * @since 2.0.0
      */
-    private const NONCE_ACTION = 'installment_prices_save_product';
+    private const NONCE_ACTION = Identity::SLUG . '-save-product';
 
     /**
      * @since 2.0.0
      */
-    private const NONCE_FIELD = 'installment_prices_nonce';
+    private const NONCE_FIELD = Identity::SLUG . '-nonce';
 
     /**
      * @since 2.0.0
@@ -68,7 +69,7 @@ final class ProductDataTab
     #[Filter('woocommerce_product_data_tabs')]
     public function addTab(array $tabs): array
     {
-        $tabs['installment_prices'] = [
+        $tabs[Identity::SLUG] = [
             'label'    => __('Installments', 'woocommerce-parcelas'),
             'target'   => self::PANEL_ID,
             'class'    => [],
