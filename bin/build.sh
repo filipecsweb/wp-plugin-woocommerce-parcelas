@@ -3,20 +3,18 @@
 # Build the distributable plugin ZIP — the artifact shipped to wordpress.org.
 #
 # Order matters; this script enforces it:
-#   1. Compile front-end assets    (npm ci && npm run build  -> public/build/)
-#   2. Refresh translation .pot     (wp i18n make-pot, if WP-CLI present -> languages/<slug>.pot)
-#   3. Install production deps      (composer install --no-dev -> vendor/)
-#   4. Package the ZIP              (rsync the tree minus .distignore -> dist/<slug>-<version>.zip)
-#   5. Restore dev deps             (composer install)  unless --no-restore
+#   1. Compile front-end assets    (npm ci && npm run build  -> public/build/, languages/ .pot + .mo + .json)
+#   2. Install production deps      (composer install --no-dev -> vendor/)
+#   3. Package the ZIP              (rsync the tree minus .distignore -> dist/<slug>-<version>.zip)
+#   4. Restore dev deps             (composer install)  unless --no-restore
 #
 # Packaging is done with rsync + zip (not `wp dist-archive`) so the build is
-# self-contained and runs the same locally and in CI. The only optional tool is
-# WP-CLI, used solely to regenerate the shipped translation template when present;
-# without it the build proceeds and ships the existing languages/<slug>.pot.
+# self-contained and runs the same locally and in CI. npm run build also compiles
+# the translations (bin/i18n.sh build), which needs WP-CLI.
 # .distignore stays the single source of truth for what is excluded; this script
 # feeds every entry to rsync as an --exclude.
 #
-# Requirements on PATH: npm, composer, rsync, zip  (optional: wp-cli, to refresh the .pot).
+# Requirements on PATH: npm, wp (WP-CLI), composer, rsync, zip.
 #
 # Usage:
 #   bin/build.sh               # build, then restore dev dependencies
@@ -47,8 +45,8 @@ for arg in "$@"; do
       cat <<'USAGE'
 Build the distributable plugin ZIP (dist/<slug>-<version>.zip).
 
-Steps: npm ci && npm run build  ->  wp i18n make-pot (optional)  ->  composer install --no-dev  ->  rsync + zip.
-Excludes are read from .distignore. Requires npm, composer, rsync, zip on PATH (wp-cli optional, refreshes the .pot).
+Steps: npm ci && npm run build  ->  composer install --no-dev  ->  rsync + zip.
+Excludes are read from .distignore. Requires npm, wp (WP-CLI), composer, rsync, zip on PATH.
 
 Usage:
   bin/build.sh               build, then restore dev dependencies
@@ -66,35 +64,23 @@ version="$(grep -iE '^[[:space:]]*\*?[[:space:]]*Version:' "$main_file" | head -
 echo "==> Building $slug v$version"
 
 # Preconditions.
-for cmd in npm composer rsync zip; do
+for cmd in npm wp composer rsync zip; do
   command -v "$cmd" >/dev/null 2>&1 || { echo "ERROR: required command not found on PATH: $cmd" >&2; exit 1; }
 done
 
 # 1. Front-end assets.
-echo "==> [1/5] Building front-end assets"
+echo "==> [1/4] Building front-end assets"
 npm ci
 npm run build
 test -f public/build/.vite/manifest.json || { echo "ERROR: asset build produced no manifest" >&2; exit 1; }
 
-# 2. Translation template. Refresh the shipped .pot from current source so
-#    languages/ ships translation-ready. WP-CLI is the canonical generator (it
-#    stamps the .pot's X-Generator header); keep it optional so the build still
-#    runs where WP-CLI is absent — translate.wordpress.org regenerates from source
-#    regardless. --exclude=dist keeps the staged build copy out of the scan.
-echo "==> [2/5] Refreshing translation template (languages/$slug.pot)"
-if command -v wp >/dev/null 2>&1; then
-  wp i18n make-pot . "languages/$slug.pot" --exclude=dist
-else
-  echo "    WARN: WP-CLI not found — shipping the existing languages/$slug.pot unchanged" >&2
-fi
-
-# 3. Production Composer autoloader (runtime deps only).
-echo "==> [3/5] Installing production Composer dependencies (--no-dev)"
+# 2. Production Composer autoloader (runtime deps only).
+echo "==> [2/4] Installing production Composer dependencies (--no-dev)"
 composer install --no-dev --optimize-autoloader --no-interaction
 
 # 3. Package. Stage the tree (minus .distignore entries) under a folder named after
 #    the slug so the ZIP extracts to wp-content/plugins/<slug>/, then zip it.
-echo "==> [4/5] Packaging ZIP"
+echo "==> [3/4] Packaging ZIP"
 mkdir -p dist
 zip_path="$repo_root/dist/$slug-$version.zip"
 rm -f "$zip_path"
@@ -120,10 +106,10 @@ rsync -a "${exclude_args[@]}" ./ "$dest/"
 
 # 4. Restore the dev toolchain so the working tree is dev-ready again.
 if [ "$restore" -eq 1 ]; then
-  echo "==> [5/5] Restoring dev Composer dependencies"
+  echo "==> [4/4] Restoring dev Composer dependencies"
   composer install --no-interaction
 else
-  echo "==> [5/5] Skipped dev-dependency restore (--no-restore); run 'composer install' to restore tooling"
+  echo "==> [4/4] Skipped dev-dependency restore (--no-restore); run 'composer install' to restore tooling"
 fi
 
 echo "==> Done: dist/$slug-$version.zip"

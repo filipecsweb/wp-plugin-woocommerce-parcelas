@@ -21,6 +21,15 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # WP-CLI: npm run build compiles the translations (bin/i18n.sh build).
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: sodium
+          coverage: none
+          tools: composer:v2, wp-cli
+
       - uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
@@ -33,14 +42,6 @@ jobs:
 
       - name: Verify the build manifest exists
         run: test -f public/build/.vite/manifest.json
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: sodium
-          coverage: none
-          tools: composer:v2
 
       # Production autoloader only — dev packages never ship.
       - name: Install Composer dependencies (production)

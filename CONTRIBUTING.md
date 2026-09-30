@@ -128,3 +128,23 @@ tracking its upstream version) — used **nowhere** today.
 
 **Out of scope:** `tests/` and build configs (`vite.config.js`, `playwright.config.js`).
 <!-- /contract:docblock-provenance-wp -->
+
+<!-- contract:i18n-wp -->
+## Translations
+
+`languages/` keeps one `<text-domain>-<locale>.po` per locale. Those files hold the translated
+text and are the only translation files in git; `bin/i18n.sh` generates the rest (commands and
+requirements: its header).
+
+- **Strings:** a string with a placeholder gets a `/* translators: … */` comment, naming each
+  placeholder, right before its `__()`/`_n()`/`_x()` call.
+- **Feature PRs** leave `languages/`, and every `.po`, alone: a new string shows untranslated
+  until the release that translates it.
+- **Before a release:** run `bin/i18n.sh sync`, then fill every empty `msgstr` in each `.po`
+  (`msgattrib --untranslated <file>` lists them), keeping each placeholder (`%s`, `%1$s`) and
+  HTML tag of the original and the wording the file already uses for the same term. The release
+  preflight runs `bin/i18n.sh check` and stops on anything left untranslated or fuzzy, a broken
+  placeholder, or a placeholder without its translator comment.
+- **A new locale:** `bin/i18n.sh add <locale>`, with the WordPress locale (`de_DE`), then
+  translate it as above.
+<!-- /contract:i18n-wp -->
