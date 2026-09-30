@@ -17,6 +17,7 @@ interface Props {
 
 export default function GeneralTab({ cfg, draft, actions }: Props) {
   const { installments, cash } = draft
+  const count = cfg.limits.installments
   const inCurrency = (label: string) =>
     sprintf(
       /* translators: 1: a field label; 2: the store's currency symbol. */
@@ -41,8 +42,16 @@ export default function GeneralTab({ cfg, draft, actions }: Props) {
             <Field label={__('Text after', 'woocommerce-parcelas')} hint={__('e.g. "interest-free".', 'woocommerce-parcelas')}>
               {(props) => <Input {...props} value={installments.suffix} onChange={(event) => actions.installments({ suffix: event.target.value })} />}
             </Field>
-            <Field label={__('Maximum installments', 'woocommerce-parcelas')} hint={__('At least 2. A product can set its own in its Installments tab.', 'woocommerce-parcelas')}>
-              {(props) => <Input {...props} type="number" min={2} step={1} value={String(installments.max)} onChange={(event) => actions.installments({ max: event.target.value })} />}
+            <Field
+              label={__('Maximum installments', 'woocommerce-parcelas')}
+              hint={sprintf(
+                /* translators: 1: fewest installments allowed; 2: most installments allowed. */
+                __('From %1$d to %2$d. A product can set its own in its Installments tab.', 'woocommerce-parcelas'),
+                count.min,
+                count.max
+              )}
+            >
+              {(props) => <Input {...props} type="number" min={count.min} max={count.max} step={1} value={String(installments.max)} onChange={(event) => actions.installments({ max: event.target.value })} />}
             </Field>
             <Field label={inCurrency(__('Minimum installment', 'woocommerce-parcelas'))} hint={__('Fewer installments are offered when one would cost less. 0 turns the limit off.', 'woocommerce-parcelas')}>
               {(props) => <Input {...props} type="number" min={0} step="any" value={String(installments.min_amount)} onChange={(event) => actions.installments({ min_amount: event.target.value })} />}

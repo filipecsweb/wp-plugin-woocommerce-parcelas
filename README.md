@@ -20,8 +20,8 @@ modules), bundled under this plugin's namespace.
 
 ## What it does
 
-- **Installment price**: the price split into up to N installments, never fewer than
-  2, each at or above a minimum amount, with the store's own text before and after.
+- **Installment price**: the price split into up to N installments (2 to 48), each at
+  or above a minimum amount, with the store's own text before and after.
 - **Cash price**: a percentage or fixed discount for paying in full.
 - **Placement and style**: the WooCommerce position (and priority) for product lists
   and the product page, alignment, and color / weight / size per part of each line.

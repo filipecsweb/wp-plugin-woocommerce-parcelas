@@ -25,10 +25,6 @@ it('offers nothing when even two installments fall below the minimum', function 
         ->and(Calculator::installments(5.0, 10, 5.0, 2))->toBeNull();
 });
 
-it('never goes below two installments, whatever the maximum', function (): void {
-    expect(Calculator::installments(100.0, 1, 0.0, 2))->toBe(['count' => 2, 'amount' => 50.0]);
-});
-
 it('prices nothing free', function (): void {
     expect(Calculator::installments(0.0, 10, 0.0, 2))->toBeNull()
         ->and(Calculator::cash(0.0, 10.0, 'percent'))->toBeNull();

@@ -67,14 +67,13 @@ final class Overrides
     public static function sanitize(mixed $input): array
     {
         $in       = is_array($input) ? $input : [];
-        $max      = $in['max'] ?? null;
         $discount = $in['discount'] ?? null;
         $type     = $in['discount_type'] ?? null;
 
         return [
-            'installments_disabled' => filter_var($in['installments_disabled'] ?? false, FILTER_VALIDATE_BOOLEAN),
-            'max'                   => self::blank($max) ? null : max(Settings::MIN_INSTALLMENTS, is_numeric($max) ? (int) $max : 0),
-            'cash_disabled'         => filter_var($in['cash_disabled'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            'installments_disabled' => Settings::flag($in['installments_disabled'] ?? false),
+            'max'                   => Settings::maxInstallments($in['max'] ?? null),
+            'cash_disabled'         => Settings::flag($in['cash_disabled'] ?? false),
             'discount'              => self::blank($discount) ? null : Settings::amount($discount),
             'discount_type'         => in_array($type, Settings::DISCOUNT_TYPES, true) ? $type : null,
         ];

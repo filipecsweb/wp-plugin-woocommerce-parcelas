@@ -153,6 +153,7 @@ final class SettingsPage extends AdminPage
             'plugin'        => ['name' => $this->plugin->name(), 'version' => $this->plugin->version()],
             'settings'      => $this->settings->all(),
             'choices'       => Settings::choices(),
+            'limits'        => ['installments' => ['min' => Settings::MIN_INSTALLMENTS, 'max' => Settings::MAX_INSTALLMENTS]],
             'currency'      => html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
             'supportUrl'    => sprintf('https://wordpress.org/support/plugin/%s/', $this->plugin->textDomain()),
         ];

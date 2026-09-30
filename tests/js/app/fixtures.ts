@@ -30,6 +30,7 @@ export const cfg: Config = {
     weights: [choice('', 'Theme default'), choice('700', '700 (Bold)')],
     discountTypes: [choice('percent', 'Percentage (%)'), choice('fixed', 'Fixed amount')],
   },
+  limits: { installments: { min: 2, max: 48 } },
   currency: '$',
   supportUrl: 'https://wordpress.org/support/plugin/woocommerce-parcelas/',
 }

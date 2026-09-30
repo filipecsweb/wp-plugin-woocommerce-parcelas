@@ -70,12 +70,18 @@ export interface Choices {
   discountTypes: Choice[]
 }
 
+export interface Range {
+  min: number
+  max: number
+}
+
 /** The keys of window.InstallmentPricesForWooCommerceConfig the React screen reads (SettingsPage::config()). */
 export interface Config {
   restNamespace: string
   plugin: { name: string; version: string }
   settings: Settings
   choices: Choices
+  limits: { installments: Range }
   currency: string
   supportUrl: string
 }

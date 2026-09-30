@@ -51,7 +51,10 @@ false if the code were moved or reused.
 
 ## Specific rules (each prevents a real, recurring bug)
 - **Settings = one autoloaded option row**, written only through `Settings` (whose
-  `sanitize()` is the single validator for storage, REST and upgrades).
+  `sanitize()` is the single validator for storage, REST and upgrades). Every limit and
+  coercion lives there once (`MIN_INSTALLMENTS`/`MAX_INSTALLMENTS`, `maxInstallments()`,
+  `amount()`, `flag()`): `Overrides` reuses them, the React screen gets the limits via
+  `SettingsPage::config()`, and `Calculator` trusts its sanitized input.
 - **Upgrades run on a request, not on activation**: WordPress doesn't fire activation hooks
   on updates. `Settings::install()` stores 1.x's settings (or the defaults) the first time.
   1.x data is read, never deleted, until uninstall.

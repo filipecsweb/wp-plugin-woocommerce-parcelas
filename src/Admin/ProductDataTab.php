@@ -93,9 +93,8 @@ final class ProductDataTab
             return;
         }
 
-        $own    = $this->overrides->for($product);
-        $store  = $this->settings->all();
-        $inherit = __('Leave blank to use the store setting.', 'woocommerce-parcelas');
+        $own   = $this->overrides->for($product);
+        $store = $this->settings->all();
 
         echo '<div id="' . esc_attr(self::PANEL_ID) . '" class="panel woocommerce_options_panel hidden">';
         wp_nonce_field(self::NONCE_ACTION, self::NONCE_FIELD);
@@ -115,7 +114,12 @@ final class ProductDataTab
             'placeholder'       => (string) $store['installments']['max'],
             'custom_attributes' => ['min' => (string) Settings::MIN_INSTALLMENTS, 'step' => '1'],
             'desc_tip'          => true,
-            'description'       => $inherit,
+            'description'       => sprintf(
+                /* translators: 1: fewest installments allowed; 2: most installments allowed. */
+                __('From %1$d to %2$d. Leave blank to use the store setting.', 'woocommerce-parcelas'),
+                Settings::MIN_INSTALLMENTS,
+                Settings::MAX_INSTALLMENTS
+            ),
         ]);
         echo '</div>';
 
@@ -134,7 +138,7 @@ final class ProductDataTab
             'placeholder'       => (string) $store['cash']['discount'],
             'custom_attributes' => ['min' => '0', 'step' => 'any'],
             'desc_tip'          => true,
-            'description'       => $inherit,
+            'description'       => __('Leave blank to use the store setting.', 'woocommerce-parcelas'),
         ]);
         woocommerce_wp_select([
             'id'      => self::FIELDS['discount_type'],

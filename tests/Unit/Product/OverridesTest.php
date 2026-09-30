@@ -6,6 +6,7 @@ namespace InstallmentPricesForWooCommerce\Tests\Unit\Product;
 
 use Brain\Monkey\Functions;
 use InstallmentPricesForWooCommerce\Product\Overrides;
+use InstallmentPricesForWooCommerce\Settings\Settings;
 use WC_Product;
 
 it('treats a blank field as the store setting', function (): void {
@@ -16,6 +17,14 @@ it('treats a blank field as the store setting', function (): void {
 it('coerces the posted fields', function (): void {
     expect(Overrides::sanitize(['installments_disabled' => true, 'max' => '1', 'cash_disabled' => '1', 'discount' => '7,5', 'discount_type' => 'fixed']))
         ->toBe(['installments_disabled' => true, 'max' => 2, 'cash_disabled' => true, 'discount' => 7.5, 'discount_type' => 'fixed']);
+});
+
+it('caps the maximum installments', function (): void {
+    expect(Overrides::sanitize(['max' => '100000000'])['max'])->toBe(Settings::MAX_INSTALLMENTS);
+});
+
+it('reads a maximum that is not a number as the store setting', function (): void {
+    expect(Overrides::sanitize(['max' => 'twelve'])['max'])->toBeNull();
 });
 
 it('falls back to a product’s 1.x overrides until it is saved again', function (): void {

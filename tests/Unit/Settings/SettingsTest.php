@@ -61,6 +61,12 @@ it('keeps values inside their limits', function (): void {
         ->and($settings['placement']['loop']['align'])->toBe('');
 });
 
+it('caps the maximum installments, however large the number typed', function (): void {
+    foreach (['49', '100000000', '99999999999999999999', '1e400'] as $typed) {
+        expect(Settings::sanitize(['installments' => ['max' => $typed]])['installments']['max'])->toBe(Settings::MAX_INSTALLMENTS);
+    }
+});
+
 it('admits only CSS-safe style values', function (): void {
     $style = Settings::sanitize(['style' => ['installments' => ['loop' => [
         'prefix' => ['color' => '#CC1818', 'weight' => '700', 'size' => '1.2EM'],

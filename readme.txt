@@ -21,7 +21,7 @@ It only displays prices. It doesn't process payments or change what customers ar
 
 **Installment price**
 
-* Split the price into up to as many installments as you choose, with your own text before and after it.
+* Split the price into as many installments as you choose, up to 48, with your own text before and after it.
 * Set a minimum installment amount: fewer installments are offered when one would cost less.
 
 **Cash price**
@@ -112,6 +112,7 @@ The compiled admin assets in `public/build/` are minified. The complete, human-r
 * Custom styles are now printed with the page instead of loaded from a separate generated stylesheet.
 * Fixed: a fixed cash discount written with a decimal comma showed "NaN" on variable products.
 * Changed: the output's HTML classes and developer hooks were renamed.
+* Changed: the maximum installments now range from 2 to 48.
 * Requires PHP 8.2, WordPress 7.0 and WooCommerce 9.0 or later.
 
 = 1.3.5 =

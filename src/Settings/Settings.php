@@ -81,6 +81,14 @@ final class Settings
     public const MIN_INSTALLMENTS = 2;
 
     /**
+     * WHY a ceiling: Calculator counts down from the maximum one installment at a
+     * time on every product it prices.
+     *
+     * @since 2.0.0
+     */
+    public const MAX_INSTALLMENTS = 48;
+
+    /**
      * WHY 15: WooCommerce prints the price at priority 10 in both product lists and
      * the product summary, so 15 lands right after it.
      *
@@ -179,7 +187,7 @@ final class Settings
             'installments' => [
                 'enabled'      => self::flag($installments['enabled'] ?? false),
                 'prefix'       => self::text($installments['prefix'] ?? ''),
-                'max'          => max(self::MIN_INSTALLMENTS, self::integer($installments['max'] ?? null, self::MIN_INSTALLMENTS)),
+                'max'          => self::maxInstallments($installments['max'] ?? null) ?? self::MIN_INSTALLMENTS,
                 'suffix'       => self::text($installments['suffix'] ?? ''),
                 'min_amount'   => self::amount($installments['min_amount'] ?? 0),
                 'out_of_stock' => self::flag($installments['out_of_stock'] ?? false),
@@ -211,6 +219,18 @@ final class Settings
         $number = is_string($value) ? str_replace(',', '.', trim($value)) : $value;
 
         return is_numeric($number) ? max(0.0, (float) $number) : 0.0;
+    }
+
+    /**
+     * A maximum number of installments, within MIN_INSTALLMENTS and MAX_INSTALLMENTS;
+     * null when $value isn't a number. Compared as a float, so a number too long for
+     * an int still lands on the ceiling.
+     *
+     * @since 2.0.0
+     */
+    public static function maxInstallments(mixed $value): ?int
+    {
+        return is_numeric($value) ? (int) max(self::MIN_INSTALLMENTS, min(self::MAX_INSTALLMENTS, (float) $value)) : null;
     }
 
     /**
@@ -338,7 +358,7 @@ final class Settings
     /**
      * @since 2.0.0
      */
-    private static function flag(mixed $value): bool
+    public static function flag(mixed $value): bool
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }

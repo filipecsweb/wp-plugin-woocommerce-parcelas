@@ -15,6 +15,7 @@ final class Calculator
      * The most installments, up to $max, that keep each one at or above $minAmount;
      * null when not even the minimum number of installments does. Installment amounts
      * are compared as the store shows them, rounded to its price decimals.
+     * CONTRACT: $max comes from Settings::maxInstallments(), so it is within bounds.
      *
      * @since 2.0.0
      *
@@ -26,7 +27,7 @@ final class Calculator
             return null;
         }
 
-        $count = max(Settings::MIN_INSTALLMENTS, $max);
+        $count = $max;
 
         while ($count > Settings::MIN_INSTALLMENTS && round($price / $count, $decimals) < $minAmount) {
             $count--;
@@ -38,7 +39,8 @@ final class Calculator
     }
 
     /**
-     * The price for paying in full at once; null when the discount leaves nothing to pay.
+     * The price for paying in full at once; null when the discount leaves nothing to
+     * pay, which a percentage of 100 or more always does.
      *
      * @since 2.0.0
      */
@@ -48,7 +50,7 @@ final class Calculator
             return null;
         }
 
-        $cash = $type === 'fixed' ? $price - $discount : $price * (1 - min(100.0, $discount) / 100);
+        $cash = $type === 'fixed' ? $price - $discount : $price * (1 - $discount / 100);
 
         return $cash > 0 ? $cash : null;
     }
