@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import { cn } from 'cn/vite'
 import path from 'node:path'
+import { translatorComments } from './bin/vite-translator-comments.mjs'
 
 const WP_EXTERNAL = '\0wp-external:'
 // [window global, core script handle] for the vendor packages core ships.
@@ -80,6 +81,7 @@ export default defineConfig({
     tailwindcss(),
     cn({ content: ['resources/js/**/*.{ts,tsx}'], config: 'resources/js/ui/cn.config.mjs', out: 'resources/js/ui/cn-tables.js' }),
     wpExternals(),
+    translatorComments(),
   ],
   // The "@/…" imports: tsconfig.json's `paths` is their one definition.
   resolve: { tsconfigPaths: true },

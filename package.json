@@ -5,7 +5,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "build": "vite build && bin/i18n.sh build",
         "watch": "vite build --watch",
         "typecheck": "tsc",
         "lint": "eslint .",

@@ -9,12 +9,6 @@
 # Distributable archive (built into a staging dir; see .distignore)
 /dist/
 
-# Generated translation template. Regenerate AFTER `npm run build`: the React strings
-# are read from the built public/build/main.js (make-pot doesn't parse TSX). See
-# README → Translations for the full sequence (.po → .mo → .json).
-#   wp i18n make-pot . languages/woocommerce-parcelas.pot --exclude=dist
-/languages/*.pot
-
 # Tooling caches
 /.phpunit.cache/
 /.phpunit.result.cache
