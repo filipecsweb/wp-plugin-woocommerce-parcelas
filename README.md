@@ -110,7 +110,9 @@ npm run e2e
 
 Prepare the site once with `tests/e2e/setup-site.sh <WordPress path>`: it installs
 WooCommerce if needed, the pt_BR core language pack (one spec needs it to prove the
-bundled translations load), and the fixture products the storefront specs visit.
+bundled translations load), a must-use fixture that prints an admin notice for the spec
+that proves the screen hides other code's notices (only for that spec's cookie, so the
+site is otherwise unaffected), and the fixture products the storefront specs visit.
 
 CI provisions its own WordPress with WP-CLI — see `.github/workflows/ci.yml` — once
 per WordPress version it supports: the plugin header's `Requires at least` and the

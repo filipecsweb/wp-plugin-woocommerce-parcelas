@@ -16,6 +16,11 @@ abstract class AdminPage
     /**
      * @since 2.0.0
      */
+    private const NOTICE_HOOKS = ['admin_notices', 'all_admin_notices', 'network_admin_notices', 'user_admin_notices'];
+
+    /**
+     * @since 2.0.0
+     */
     private string $hookSuffix = '';
 
     /**
@@ -73,6 +78,16 @@ abstract class AdminPage
     }
 
     /**
+     * Whether the page's own screen drops every admin notice, core's included.
+     *
+     * @since 2.0.0
+     */
+    protected function silencesNotices(): bool
+    {
+        return false;
+    }
+
+    /**
      * @since 2.0.0
      */
     public function register(): void
@@ -89,21 +104,42 @@ abstract class AdminPage
                 $this->icon(),
                 $this->position()
             );
+        } else {
+            $hookSuffix = add_submenu_page(
+                $parent,
+                $this->pageTitle(),
+                $this->menuTitle(),
+                $this->capability(),
+                $this->slug(),
+                [$this, 'render'],
+                $this->position()
+            );
 
-            return;
+            $this->hookSuffix = is_string($hookSuffix) ? $hookSuffix : '';
         }
 
-        $hookSuffix = add_submenu_page(
-            $parent,
-            $this->pageTitle(),
-            $this->menuTitle(),
-            $this->capability(),
-            $this->slug(),
-            [$this, 'render'],
-            $this->position()
-        );
+        // WHY manual: the hook name embeds the runtime hook suffix, which a compile-time
+        // #[Action] attribute can't express.
+        if ($this->hookSuffix !== '' && $this->silencesNotices()) {
+            add_action('load-' . $this->hookSuffix, [$this, 'silenceNotices']);
+        }
+    }
 
-        $this->hookSuffix = is_string($hookSuffix) ? $hookSuffix : '';
+    /**
+     * WHY in_admin_header, last: it fires after every plugin has queued its notices and
+     * right before core prints them, so none reaches the screen, not even for a frame.
+     *
+     * @since 2.0.0
+     */
+    public function silenceNotices(): void
+    {
+        // WHY manual: it exists only once the page's own screen loads, a runtime
+        // condition a compile-time #[Action] attribute can't express.
+        add_action('in_admin_header', static function (): void {
+            foreach (self::NOTICE_HOOKS as $hook) {
+                remove_all_actions($hook);
+            }
+        }, PHP_INT_MAX);
     }
 
     /**

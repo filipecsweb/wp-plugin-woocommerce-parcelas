@@ -1,4 +1,5 @@
 import { test, expect } from './support/fixtures.js'
+import { PLUGINS_PATH, SETTINGS_PATH } from './support/config.js'
 
 // wp-admin chrome around the screen: toolbar, menu, page heading + description, footer.
 const CHROME = ['#wpadminbar', '#adminmenu a', '.wrap > h1', '.wrap > p.description', '#wpfooter']
@@ -20,6 +21,19 @@ test.describe('settings shell', () => {
     await admin.reload()
     await expect(settings.styleTab).toHaveAttribute('aria-selected', 'true')
     await expect(settings.generalTab).toHaveAttribute('aria-selected', 'false')
+  })
+
+  test('hides admin notices from other code on this screen only', async ({ admin }) => {
+    // CONTRACT: the cookie and id are the ones tests/e2e/support/foreign-notice.php reads and prints.
+    await admin.context().addCookies([{ name: 'installment_prices_for_woocommerce_e2e_notice', value: '1', url: admin.url() }])
+    const notice = admin.locator('#installment-prices-for-woocommerce-e2e-notice')
+
+    await admin.goto(PLUGINS_PATH)
+    await expect(notice, 'the fixture notice is missing: run tests/e2e/setup-site.sh against this site').toBeVisible()
+
+    await admin.goto(SETTINGS_PATH)
+    await expect(admin.locator('.installment-prices-admin')).toBeVisible()
+    await expect(notice).toHaveCount(0)
   })
 
   test('leaves the wp-admin chrome untouched', async ({ admin }) => {
