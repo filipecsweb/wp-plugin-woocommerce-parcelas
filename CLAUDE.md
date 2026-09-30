@@ -91,7 +91,7 @@ Consequences (each one has bitten):
   `React.forwardRef`. `check:build` (part of `qa:js`) fails on a bundled React copy or on a
   CSS selector outside the mount — never weaken it.
 - **Strings:** `__()` from `@wordpress/i18n` with the plugin text domain, only in `app/`
-  (and the kit's `ui/`). After a string change, run README → Translations.
+  (and the kit's `ui/`). Translating: CONTRIBUTING.md → Translations.
 - **Root contract:** React renders `.installment-prices-admin` with the `data-*` attributes
   as plain props; the E2E page object (`tests/e2e/support/settings-page.js`) reads only
   roles, labels, `data-testid` and those attributes.

@@ -36,7 +36,9 @@ modules), bundled under this plugin's namespace.
 
 - PHP **8.2+**, WordPress **7.0+**, WooCommerce **9.0+** (the `Requires Plugins` header
   makes WordPress enforce it)
-- For development: Composer, Node (the version pinned in `.nvmrc`), and a local
+- For development: Composer, Node (the version pinned in `.nvmrc`),
+  [WP-CLI](https://wp-cli.org/), which `npm run build` uses to compile the translations
+  (`bin/i18n.sh sync`, `check` and `add` also need gettext), and a local
   WordPress with WooCommerce (e.g. [Herd](https://herd.laravel.com) + [DBngin](https://dbngin.com))
 
 ## Installation
@@ -47,7 +49,7 @@ build them once:
 ```bash
 composer install --no-dev   # production autoloader (omit --no-dev for tooling)
 npm ci
-npm run build               # emits public/build/ (entries + .vite/manifest.json)
+npm run build               # emits public/build/ (entries + .vite/manifest.json) and languages/ (.pot, .mo, .json)
 ```
 
 Then, from the plugin folder, symlink it into a site's `wp-content/plugins/` as
@@ -82,7 +84,7 @@ composer stan    # PHPStan at max level (WordPress + WooCommerce stubs)
 composer test    # Pest unit suite (Brain Monkey)
 composer qa      # versions + since + all three
 
-npm run build    # production assets
+npm run build    # production assets + compiled translations
 npm run watch    # rebuild on save (no dev server: the screen uses core's React globals)
 npm run qa:js    # typecheck + ESLint + Vitest, then build and check the React bundle
                  # (no bundled React copy, no CSS outside the app's mount)
@@ -115,18 +117,7 @@ per WordPress version it supports: the plugin header's `Requires at least` and t
 latest. It runs `tests/e2e/setup-site.sh` on each fresh install, before activating
 the plugin.
 
-**Translations:** `languages/` ships the pt_BR `.po`/`.mo` and the JSON the React
-screen loads (`<domain>-<locale>-<md5 of public/build/main.js>.json`, which is why the
-built entry keeps a stable, unhashed name). After a string changes:
-
-```bash
-npm run build                        # make-pot reads the React strings from the BUILT entry (it doesn't parse TSX)
-wp i18n make-pot . languages/woocommerce-parcelas.pot --exclude=dist
-wp i18n update-po languages/woocommerce-parcelas.pot languages/
-#  ...translate the new msgids in the .po, then:
-wp i18n make-mo languages/
-wp i18n make-json languages/ --no-purge --pretty-print   # --no-purge keeps the .po as the single source
-```
+**Translations:** see [CONTRIBUTING.md → Translations](CONTRIBUTING.md#translations).
 
 ## License
 

@@ -3,7 +3,7 @@ import { test, expect } from './support/fixtures.js'
 /**
  * The bundled pt_BR translations reach the screen for a user whose locale is pt_BR:
  * PHP strings through the .mo, React strings through the JSON next to it, which
- * WordPress finds by the md5 of the built entry's path (see README → Translations).
+ * WordPress finds by the md5 of the built entry's path (see CONTRIBUTING.md → Translations).
  * One label from each proves the chain; the site needs the pt_BR core language pack.
  */
 test.describe('Bundled translations', () => {

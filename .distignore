@@ -5,8 +5,8 @@
 # The shipped ZIP = runtime PHP (woocommerce-parcelas.php, uninstall.php, src/,
 # foundation/, modules/) + the production Composer autoloader
 # (vendor/, installed with --no-dev) + the built, minified front-end assets
-# (public/build/) + translations (languages/: the .pot template and the bundled
-# locales, e.g. pt_BR, as .po/.mo plus the .json the React screen loads). The front-end SOURCE
+# (public/build/) + translations (languages/: each locale's .po, plus the .pot
+# template and the .mo and .json that npm run build generates). The front-end SOURCE
 # (resources/js, resources/css) and its build config (vite.config.*, package.json,
 # package-lock.json) do NOT ship: the complete human-readable source lives in the
 # public GitHub repo, which satisfies the wordpress.org source-availability guideline.
