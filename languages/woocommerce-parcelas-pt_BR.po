@@ -1,31 +1,29 @@
-# Copyright (C) 2026 Filipe Seabra
-# This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
 "Project-Id-Version: Installment Prices for WooCommerce 2.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-parcelas\n"
 "Last-Translator: Filipe Seabra\n"
 "Language-Team: Portuguese (Brazil)\n"
-"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-09-23T04:52:29+00:00\n"
 "PO-Revision-Date: 2026-09-23 00:00+0000\n"
+"Language: pt_BR\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: woocommerce-parcelas\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Plugin Name of the plugin
 #: woocommerce-parcelas.php
-#: src/Admin/SettingsPage.php:67
+#: src/Admin/SettingsPage.php
 msgid "Installment Prices for WooCommerce"
 msgstr "Parcelas para WooCommerce"
 
 #. Plugin URI of the plugin
 #: woocommerce-parcelas.php
 msgid "https://wordpress.org/plugins/woocommerce-parcelas/"
-msgstr ""
+msgstr "https://wordpress.org/plugins/woocommerce-parcelas/"
 
 #. Description of the plugin
 #: woocommerce-parcelas.php
@@ -35,375 +33,375 @@ msgstr "Exiba o preço parcelado e o preço à vista com desconto nas listas de 
 #. Author of the plugin
 #: woocommerce-parcelas.php
 msgid "Filipe Seabra"
-msgstr ""
+msgstr "Filipe Seabra"
 
 #. Author URI of the plugin
 #: woocommerce-parcelas.php
 msgid "https://github.com/filipecsweb"
-msgstr ""
+msgstr "https://github.com/filipecsweb"
 
-#: src/Admin/ProductDataTab.php:72
+#: src/Admin/ProductDataTab.php
 msgid "Installments"
 msgstr "Parcelamento"
 
-#: src/Admin/ProductDataTab.php:97
+#: src/Admin/ProductDataTab.php
 msgid "Leave blank to use the store setting."
 msgstr "Deixe em branco para usar a configuração da loja."
 
-#: src/Admin/ProductDataTab.php:105
+#: src/Admin/ProductDataTab.php
 msgid "Hide installments"
 msgstr "Ocultar parcelamento"
 
-#: src/Admin/ProductDataTab.php:106
+#: src/Admin/ProductDataTab.php
 msgid "Show no installment price for this product."
 msgstr "Não exibir o preço parcelado neste produto."
 
-#: src/Admin/ProductDataTab.php:111
-#: public/build/main.js:1
+#: src/Admin/ProductDataTab.php
+#: public/build/main.js
 msgid "Maximum installments"
 msgstr "Máximo de parcelas"
 
-#: src/Admin/ProductDataTab.php:124
+#: src/Admin/ProductDataTab.php
 msgid "Hide cash price"
 msgstr "Ocultar preço à vista"
 
-#: src/Admin/ProductDataTab.php:125
+#: src/Admin/ProductDataTab.php
 msgid "Show no cash price for this product."
 msgstr "Não exibir o preço à vista neste produto."
 
-#: src/Admin/ProductDataTab.php:130
+#: src/Admin/ProductDataTab.php
 msgid "Cash discount"
 msgstr "Desconto à vista"
 
-#: src/Admin/ProductDataTab.php:140
-#: public/build/main.js:1
+#: src/Admin/ProductDataTab.php
+#: public/build/main.js
 msgid "Discount type"
 msgstr "Tipo de desconto"
 
-#: src/Admin/ProductDataTab.php:142
+#: src/Admin/ProductDataTab.php
 msgid "Store setting"
 msgstr "Configuração da loja"
 
-#: src/Admin/SettingsPage.php:59
+#: src/Admin/SettingsPage.php
 msgid "Sorry, you are not allowed to access this page."
 msgstr "Desculpe, você não tem permissão para acessar esta página."
 
-#: src/Admin/SettingsPage.php:75
+#: src/Admin/SettingsPage.php
 msgid "Installment Prices"
 msgstr "Parcelas"
 
-#: src/Admin/SettingsPage.php:90
+#: src/Admin/SettingsPage.php
 msgid "Settings"
 msgstr "Configurações"
 
-#: src/Admin/SettingsPage.php:103
+#: src/Admin/SettingsPage.php
 msgid "Show installment prices and a cash price on your product lists and product pages."
 msgstr "Exiba o preço parcelado e o preço à vista nas listas de produtos e nas páginas de produto."
 
-#: src/Settings/Settings.php:228
+#: src/Settings/Settings.php
 msgid "Below the product title"
 msgstr "Abaixo do título do produto"
 
-#: src/Settings/Settings.php:229
-#: src/Settings/Settings.php:235
+#: src/Settings/Settings.php
 msgid "Below the Add to cart button"
 msgstr "Abaixo do botão Adicionar ao carrinho"
 
-#: src/Settings/Settings.php:232
+#: src/Settings/Settings.php
 msgid "In the product summary"
 msgstr "No resumo do produto"
 
-#: src/Settings/Settings.php:233
+#: src/Settings/Settings.php
 msgid "Above the add-to-cart form"
 msgstr "Acima do formulário de compra"
 
-#: src/Settings/Settings.php:234
+#: src/Settings/Settings.php
 msgid "Above the Add to cart button"
 msgstr "Acima do botão Adicionar ao carrinho"
 
-#: src/Settings/Settings.php:236
+#: src/Settings/Settings.php
 msgid "Below the add-to-cart form"
 msgstr "Abaixo do formulário de compra"
 
-#: src/Settings/Settings.php:239
-#: src/Settings/Settings.php:245
+#: src/Settings/Settings.php
 msgid "Theme default"
 msgstr "Padrão do tema"
 
-#: src/Settings/Settings.php:240
+#: src/Settings/Settings.php
 msgid "Left"
 msgstr "Esquerda"
 
-#: src/Settings/Settings.php:241
+#: src/Settings/Settings.php
 msgid "Center"
 msgstr "Centro"
 
-#: src/Settings/Settings.php:242
+#: src/Settings/Settings.php
 msgid "Right"
 msgstr "Direita"
 
-#: src/Settings/Settings.php:246
+#: src/Settings/Settings.php
 msgid "100 (Thin)"
 msgstr "100 (Fina)"
 
-#: src/Settings/Settings.php:247
+#: src/Settings/Settings.php
 msgid "200 (Extra light)"
 msgstr "200 (Extraleve)"
 
-#: src/Settings/Settings.php:248
+#: src/Settings/Settings.php
 msgid "300 (Light)"
 msgstr "300 (Leve)"
 
-#: src/Settings/Settings.php:249
+#: src/Settings/Settings.php
 msgid "400 (Normal)"
 msgstr "400 (Normal)"
 
-#: src/Settings/Settings.php:250
+#: src/Settings/Settings.php
 msgid "500 (Medium)"
 msgstr "500 (Média)"
 
-#: src/Settings/Settings.php:251
+#: src/Settings/Settings.php
 msgid "600 (Semibold)"
 msgstr "600 (Seminegrito)"
 
-#: src/Settings/Settings.php:252
+#: src/Settings/Settings.php
 msgid "700 (Bold)"
 msgstr "700 (Negrito)"
 
-#: src/Settings/Settings.php:253
+#: src/Settings/Settings.php
 msgid "800 (Extra bold)"
 msgstr "800 (Extranegrito)"
 
-#: src/Settings/Settings.php:254
+#: src/Settings/Settings.php
 msgid "900 (Black)"
 msgstr "900 (Ultranegrito)"
 
-#: src/Settings/Settings.php:257
+#: src/Settings/Settings.php
 msgid "Percentage (%)"
 msgstr "Porcentagem (%)"
 
-#: src/Settings/Settings.php:258
+#: src/Settings/Settings.php
 msgid "Fixed amount"
 msgstr "Valor fixo"
 
 #. translators: %d: number of installments; the amount of each follows.
-#: src/Storefront/Renderer.php:106
+#: src/Storefront/Renderer.php
 #, php-format
 msgid "%d installment of"
 msgid_plural "%d installments of"
 msgstr[0] "%dx de"
 msgstr[1] "%dx de"
 
-#: src/Storefront/Renderer.php:110
+#: src/Storefront/Renderer.php
 msgid "From"
 msgstr "A partir de"
 
-#: woocommerce-parcelas.php:53
+#: woocommerce-parcelas.php
 msgid "Installment Prices for WooCommerce: dependencies are missing. Run \"composer install\" in the plugin directory."
 msgstr "Parcelas para WooCommerce: faltam dependências. Execute \"composer install\" no diretório do plugin."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "picker"
 msgstr "seletor"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Theme"
 msgstr "Tema"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "use the theme color"
 msgstr "usar a cor do tema"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Product lists"
 msgstr "Listas de produtos"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "The shop, category and search pages, and lists such as related products."
 msgstr "A loja, as páginas de categoria e de busca e listas como a de produtos relacionados."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Product page"
 msgstr "Página do produto"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "When variations cost different amounts, the chosen variation’s own lines also appear under its price."
 msgstr "Quando as variações têm preços diferentes, os valores da variação escolhida também aparecem abaixo do preço dela."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Position"
 msgstr "Posição"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Priority"
 msgstr "Prioridade"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Order within the position: WooCommerce shows the price at 10, so 15 comes right after it."
 msgstr "Ordem dentro da posição: o WooCommerce exibe o preço em 10, então 15 vem logo depois dele."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Alignment"
 msgstr "Alinhamento"
 
-#: public/build/main.js:1
-#, js-format
+#. translators: 1: a field label; 2: the store's currency symbol.
+#: public/build/main.js
+#, js-format,php-format
 msgid "%1$s (%2$s)"
 msgstr "%1$s (%2$s)"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Installment price"
 msgstr "Preço parcelado"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Splits the price into interest-free installments, e.g. \"Up to 10 installments of $9.90 interest-free\"."
 msgstr "Divide o preço em parcelas sem juros, ex.: \"Em até 10x de R$ 9,90 sem juros\"."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Show the installment price"
 msgstr "Exibir o preço parcelado"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Text before"
 msgstr "Texto antes"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "e.g. \"Up to\". Products with a price range say \"From\" instead."
 msgstr "Ex.: \"Em até\". Produtos com faixa de preço exibem \"A partir de\" no lugar."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Text after"
 msgstr "Texto depois"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "e.g. \"interest-free\"."
 msgstr "Ex.: \"sem juros\"."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "At least 2. A product can set its own in its Installments tab."
 msgstr "No mínimo 2. Cada produto pode definir o seu na aba Parcelamento."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Minimum installment"
 msgstr "Parcela mínima"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Fewer installments are offered when one would cost less. 0 turns the limit off."
 msgstr "Menos parcelas são oferecidas quando uma ficaria abaixo desse valor. 0 desativa o limite."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Show it on out-of-stock products too"
 msgstr "Exibir também em produtos fora de estoque"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Cash price"
 msgstr "Preço à vista"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "A discounted price for paying the full amount at once, e.g. \"or $89.10 by bank transfer\"."
 msgstr "Um preço com desconto para pagamento à vista, ex.: \"ou R$ 89,10 no Pix\"."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Show the cash price"
 msgstr "Exibir o preço à vista"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "e.g. \"or\"."
 msgstr "Ex.: \"ou\"."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "e.g. \"by bank transfer\"."
 msgstr "Ex.: \"no Pix\"."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Discount"
 msgstr "Desconto"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "A product can set its own in its Installments tab."
 msgstr "Cada produto pode definir o seu na aba Parcelamento."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Amount"
 msgstr "Valor"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Color"
 msgstr "Cor"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Weight"
 msgstr "Peso"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Size"
 msgstr "Tamanho"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Leave a field empty to keep your theme’s style."
 msgstr "Deixe um campo vazio para manter o estilo do tema."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "e.g. 18px"
 msgstr "ex.: 18px"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Settings saved."
 msgstr "Configurações salvas."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Some style values weren’t valid, so they were cleared. Use colors like #1e1e1e and sizes like 18px or 1.2em."
 msgstr "Alguns valores de estilo não eram válidos e foram removidos. Use cores como #1e1e1e e tamanhos como 18px ou 1.2em."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Something went wrong. Please try again."
 msgstr "Algo deu errado. Tente novamente."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Notifications"
 msgstr "Notificações"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Dismiss this notice."
 msgstr "Dispensar este aviso."
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "General"
 msgstr "Geral"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Display"
 msgstr "Exibição"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Style"
 msgstr "Estilo"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Settings sections"
 msgstr "Seções das configurações"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Saving…"
 msgstr "Salvando…"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Save settings"
 msgstr "Salvar configurações"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "You have unsaved changes."
 msgstr "Há alterações não salvas."
 
-#: public/build/main.js:1
-#, js-format
+#. translators: %s: plugin version number.
+#: public/build/main.js
+#, js-format,php-format
 msgid "Version %s"
 msgstr "Versão %s"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "Get support"
 msgstr "Obter suporte"
 
-#: public/build/main.js:1
+#: public/build/main.js
 msgid "WooCommerce is a trademark of its respective owner. This plugin is not affiliated with or endorsed by WooCommerce."
 msgstr "WooCommerce é uma marca de seu respectivo proprietário. Este plugin não é afiliado ao WooCommerce nem endossado por ele."
