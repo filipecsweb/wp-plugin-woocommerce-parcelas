@@ -43,7 +43,7 @@
     "scripts": {
         "cs": "phpcs",
         "cbf": "phpcbf",
-        "stan": "phpstan analyse --memory-limit=1G",
+        "stan": "phpstan analyse --memory-limit=2G",
         "test": "pest",
         "versions": "bin/check-version-consistency.sh",
         "since": "bin/check-since-tags.sh",
