@@ -150,7 +150,7 @@ abstract class AdminPage
     public function url(): string
     {
         $parent = $this->parentSlug();
-        $base   = $parent !== null && str_ends_with($parent, '.php') ? $parent : 'admin.php';
+        $base   = $parent !== null && str_ends_with(explode('?', $parent, 2)[0], '.php') ? $parent : 'admin.php';
 
         return admin_url(add_query_arg('page', $this->slug(), $base));
     }
