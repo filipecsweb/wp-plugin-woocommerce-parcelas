@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace InstallmentPricesForWooCommerce\Providers;
 
-use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use InstallmentPricesForWooCommerce\Foundation\Plugin;
 use InstallmentPricesForWooCommerce\Foundation\Provider\ServiceProvider;
 use InstallmentPricesForWooCommerce\Foundation\Settings\Options;
+use InstallmentPricesForWooCommerce\Lifecycle\WooCommerceCompatibility;
 use InstallmentPricesForWooCommerce\Product\Overrides;
 use InstallmentPricesForWooCommerce\Settings\Settings;
 use InstallmentPricesForWooCommerce\Settings\StorageKeys;
@@ -17,6 +17,13 @@ use InstallmentPricesForWooCommerce\Settings\StorageKeys;
  */
 final class CoreServiceProvider extends ServiceProvider
 {
+    /**
+     * @since 2.0.0
+     *
+     * @var list<class-string>
+     */
+    protected array $subscribers = [WooCommerceCompatibility::class];
+
     /**
      * @since 2.0.0
      */
@@ -31,23 +38,12 @@ final class CoreServiceProvider extends ServiceProvider
     }
 
     /**
-     * WHY the declarations: WooCommerce warns about any plugin that hasn't declared
-     * itself compatible with its order tables and checkout blocks. This plugin
-     * touches neither.
-     *
      * @since 2.0.0
      */
     public function boot(): void
     {
+        parent::boot();
+
         $this->container->make(Settings::class)->install();
-
-        $file = $this->container->make(Plugin::class)->file();
-
-        add_action('before_woocommerce_init', static function () use ($file): void {
-            if (class_exists(FeaturesUtil::class)) {
-                FeaturesUtil::declare_compatibility('custom_order_tables', $file, true);
-                FeaturesUtil::declare_compatibility('cart_checkout_blocks', $file, true);
-            }
-        });
     }
 }

@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace InstallmentPricesForWooCommerce\Admin;
 
+use InstallmentPricesForWooCommerce\Foundation\Hooks\Action;
+use InstallmentPricesForWooCommerce\Foundation\I18n\TextDomain;
+use InstallmentPricesForWooCommerce\Foundation\Plugin;
 use InstallmentPricesForWooCommerce\Identity;
+use InstallmentPricesForWooCommerce\Module\AdminUi\AdminAssets;
 use InstallmentPricesForWooCommerce\Module\AdminUi\AdminPage;
 use InstallmentPricesForWooCommerce\Providers\RestServiceProvider;
+use InstallmentPricesForWooCommerce\Settings\Settings;
 
 /**
  * The settings screen, under the WooCommerce menu. PHP prints the page chrome and the
@@ -23,6 +28,17 @@ final class SettingsPage extends AdminPage
      * @since 2.0.0
      */
     public const APP_ROOT_ID = Identity::SLUG . '-app';
+
+    /**
+     * @since 2.0.0
+     */
+    public function __construct(
+        private readonly AdminAssets $assets,
+        private readonly TextDomain $textDomain,
+        private readonly Settings $settings,
+        private readonly Plugin $plugin,
+    ) {
+    }
 
     /**
      * @since 2.0.0
@@ -101,6 +117,43 @@ final class SettingsPage extends AdminPage
         $link = sprintf('<a href="%s">%s</a>', esc_url($this->url()), esc_html__('Settings', 'woocommerce-parcelas'));
 
         return ['settings' => $link] + $actions;
+    }
+
+    /**
+     * @since 2.0.0
+     */
+    #[Action('admin_enqueue_scripts')]
+    public function enqueueAssets(string $hookSuffix): void
+    {
+        $this->assets->enqueueOnScreen(
+            $this->hookSuffix(),
+            $hookSuffix,
+            'resources/js/app/main.tsx',
+            Identity::SLUG . '-app',
+            'InstallmentPricesConfig',
+            $this->config(...),
+            $this->textDomain
+        );
+    }
+
+    /**
+     * CONTRACT: the keys are the Config type in resources/js/app/store.ts; keep the
+     * two in step.
+     *
+     * @since 2.0.0
+     *
+     * @return array<string, mixed>
+     */
+    private function config(): array
+    {
+        return [
+            'restNamespace' => RestServiceProvider::NAMESPACE,
+            'plugin'        => ['name' => $this->plugin->name(), 'version' => $this->plugin->version()],
+            'settings'      => $this->settings->all(),
+            'choices'       => Settings::choices(),
+            'currency'      => html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
+            'supportUrl'    => 'https://wordpress.org/support/plugin/woocommerce-parcelas/',
+        ];
     }
 
     /**

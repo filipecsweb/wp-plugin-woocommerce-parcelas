@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace InstallmentPricesForWooCommerce\Tests\Unit\Admin;
 
 use Brain\Monkey\Functions;
+use InstallmentPricesForWooCommerce\Foundation\Hooks\HookRegistrar;
 use InstallmentPricesForWooCommerce\Module\AdminUi\AdminPage;
 
 beforeEach(function (): void {
@@ -71,3 +72,11 @@ it('silences notices on its own screen only when the page opts in', function (bo
     'opted in'   => [true],
     'by default' => [false],
 ]);
+
+it('adds itself to the menu once subscribed', function (): void {
+    $page = new ExamplePage('options-general.php');
+
+    (new HookRegistrar('tests'))->register($page);
+
+    expect(has_action('admin_menu', [$page, 'register']) !== false)->toBeTrue();
+});

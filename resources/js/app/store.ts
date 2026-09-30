@@ -70,7 +70,7 @@ export interface Choices {
   discountTypes: Choice[]
 }
 
-/** The keys of window.InstallmentPricesConfig the React screen reads (AdminServiceProvider::config()). */
+/** The keys of window.InstallmentPricesConfig the React screen reads (SettingsPage::config()). */
 export interface Config {
   restNamespace: string
   plugin: { name: string; version: string }

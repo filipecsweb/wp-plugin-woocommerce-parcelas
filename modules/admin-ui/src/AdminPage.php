@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace InstallmentPricesForWooCommerce\Module\AdminUi;
 
+use InstallmentPricesForWooCommerce\Foundation\Hooks\Action;
+
 /**
  * One subclass works as either top-level menu or submenu purely via
  * parentSlug()'s return. CONTRACT: a null parentSlug() makes the page a
@@ -90,6 +92,7 @@ abstract class AdminPage
     /**
      * @since 2.0.0
      */
+    #[Action('admin_menu')]
     public function register(): void
     {
         $parent = $this->parentSlug();

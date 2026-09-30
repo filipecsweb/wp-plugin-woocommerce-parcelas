@@ -55,9 +55,11 @@ false if the code were moved or reused.
   1.x data is read, never deleted, until uninstall.
 - **Uninstall purges everything**, 1.x's option and product meta included (`Uninstaller`).
 - **Git branches:** never create or switch branches unless the user explicitly asks.
-- **Hooks via attributes**, except where the hook name is only known at runtime — the
-  storefront positions (settings) and `plugin_action_links_<basename>` — which are wired in
-  their provider with a WHY comment.
+- **Hooks via attributes** on the class that handles them, listed in its provider's
+  `$subscribers` (the kernel's `AdminPage` hooks its own `register()` onto `admin_menu`).
+  Wire by hand only what an attribute can't say — a hook name, priority, or whether to hook
+  at all that is known only at runtime: the storefront positions and their on/off gate
+  (settings), and `plugin_action_links_<basename>` — in the provider, with a WHY comment.
 - **Every user-facing toggle gates its hooks.** With both lines off, the storefront provider
   hooks nothing.
 - **REST only, one guard.** Admin endpoints use `register_rest_route` behind the shared
