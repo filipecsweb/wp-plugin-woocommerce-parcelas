@@ -1,0 +1,53 @@
+name: Bug report
+description: Something doesn't work as it should.
+body:
+  - type: textarea
+    id: what-happens
+    attributes:
+      label: What happens
+      description: The behavior you observe, stated plainly. Include exact error text when there is any.
+      placeholder: Clicking "Save" returns an error and the settings are not persisted.
+    validations:
+      required: true
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should happen
+      placeholder: Settings save and a success notice appears.
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Exact, complete steps from a clean start. A bug we can reproduce is a bug we can fix.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The version the bug occurs on — release, tag, or commit. Use "live" for a deployed site with no version.
+      placeholder: 1.0.1
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Whatever the bug plausibly depends on — OS, browser, runtime versions, notable plugins or config. Use "N/A" when the bug is environment-independent.
+      placeholder: WordPress 6.8, PHP 8.3, nginx; Firefox 140 on macOS 14
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs & evidence
+      description: Error output, log excerpts, screenshots, links. Use "N/A" when there is nothing to attach.
+      placeholder: N/A
+    validations:
+      required: false

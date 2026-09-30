@@ -1,0 +1,32 @@
+name: Changelog Guard
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, labeled, unlabeled, milestoned, demilestoned]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  changelog-classified:
+    name: Changelog classified
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require a version milestone or the skip-changelog label
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          pr=$(gh api "repos/$REPO/pulls/$PR")
+          milestone=$(echo "$pr" | jq -r '.milestone.title // ""')
+          if [ -n "$milestone" ]; then
+            echo "Milestone: $milestone — classified."
+            exit 0
+          fi
+          if echo "$pr" | jq -e '.labels[] | select(.name == "skip-changelog")' >/dev/null; then
+            echo "Label skip-changelog present — classified."
+            exit 0
+          fi
+          echo "Assign a version milestone or add the 'skip-changelog' label."
+          exit 1

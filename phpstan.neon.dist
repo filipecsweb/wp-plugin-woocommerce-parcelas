@@ -1,0 +1,19 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: max
+    phpVersion: 80200
+    paths:
+        - foundation/src
+        - modules/admin-ui/src
+        - src
+        - woocommerce-parcelas.php
+        - uninstall.php
+    scanFiles:
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
+    treatPhpDocTypesAsCertain: false
+    dynamicConstantNames:
+        - WP_DEBUG
+        - DOING_AUTOSAVE

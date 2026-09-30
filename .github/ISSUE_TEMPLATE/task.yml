@@ -1,0 +1,45 @@
+name: Task
+description: Anything that isn't a bug — feature, improvement, chore, docs, research.
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      options:
+        - Feature — new capability
+        - Improvement — something existing, made better
+        - Chore — maintenance, tooling, dependencies
+        - Docs — documentation only
+        - Spike — time-boxed research; ships a recommendation, not code
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: The outcome, not the implementation — one or two sentences. For a spike, the question to answer.
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why this is worth doing — the problem it removes or the value it adds.
+    validations:
+      required: true
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
+      description: A verifiable checklist that would close this issue. Use "N/A" to leave it to the maintainer.
+      placeholder: "- [ ] "
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Links, prior art, screenshots, related issues. Use "N/A" when there is none.
+      placeholder: N/A
+    validations:
+      required: false
