@@ -66,6 +66,7 @@ it('rejects a malformed sidecar', function (string $json): void {
     'not an object'  => '"react"',
     'handle map'     => '{"resources/js/app.tsx": {"a": "react"}}',
     'non-string'     => '{"resources/js/app.tsx": ["react", 1]}',
+    'empty handle'   => '{"resources/js/app.tsx": ["react", ""]}',
 ]);
 
 it('tags only the entry script as a module, whatever the attribute order', function (string $entry): void {
