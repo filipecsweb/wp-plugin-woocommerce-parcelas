@@ -80,7 +80,8 @@ final class LegacySettings
     }
 
     /**
-     * An unset field (1.x left it empty) falls back to the store setting.
+     * An unset field (1.x left it empty) falls back to the store setting, and so
+     * does a quantity of 0: 1.x checked it with empty().
      *
      * @since 2.0.0
      *
@@ -92,7 +93,7 @@ final class LegacySettings
     {
         return [
             'installments_disabled' => self::checked($old['disable_installments'] ?? null),
-            'max'                   => $old['installment_qty'] ?? '',
+            'max'                   => empty($old['installment_qty']) ? '' : $old['installment_qty'],
             'cash_disabled'         => self::checked($old['disable_in_cash'] ?? null),
             'discount'              => $old['in_cash_discount'] ?? '',
             'discount_type'         => self::discountType($old['in_cash_discount_type'] ?? null) ?? '',

@@ -66,3 +66,8 @@ it('maps a product’s 1.x overrides, blanks meaning the store setting', functio
         ->and(LegacySettings::toOverrides(['in_cash_discount' => '10', 'in_cash_discount_type' => '0']))
         ->toMatchArray(['discount' => '10', 'discount_type' => 'percent']);
 });
+
+it('reads a 1.x quantity of 0 as the store setting, as 1.x did', function (): void {
+    expect(LegacySettings::toOverrides(['installment_qty' => '0'])['max'])->toBe('')
+        ->and(LegacySettings::toOverrides(['in_cash_discount' => '0'])['discount'])->toBe('0');
+});
