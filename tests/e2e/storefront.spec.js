@@ -115,7 +115,7 @@ test.describe('Storefront', () => {
     }
   })
 
-  test('a product saves with values out of range or half-typed left in its hidden tab', async ({ admin, api }) => {
+  test('a product saves with values out of range or not numbers left in its hidden tab', async ({ admin, api }) => {
     const id = await api.productId(PRODUCTS.simple.slug)
 
     try {
@@ -123,14 +123,14 @@ test.describe('Storefront', () => {
       await admin.locator('.installment-prices-for-woocommerce_options a').dispatchEvent('click')
       const panel = admin.locator('#installment-prices-for-woocommerce-product-data')
       await panel.getByLabel('Maximum installments').fill('1')
-      await panel.getByLabel('Cash discount').fill('1e')
+      await panel.getByLabel('Cash discount').fill('5%')
       await admin.locator('.general_options a').dispatchEvent('click')
       await Promise.all([admin.waitForURL(/[?&]message=\d+/), admin.locator('#publish').dispatchEvent('click')])
 
       await admin.goto(productPath(PRODUCTS.simple.slug))
       const { installments, cash } = lines(admin.locator('.installment-prices-for-woocommerce--single'))
       await expect(installments).toContainText('Up to 2 installments of')
-      await expect(cash).toContainText(amount('100.00'))
+      await expect(cash).toContainText(amount('90.00'))
     } finally {
       await api.clearProductOverrides(PRODUCTS.simple.slug)
     }

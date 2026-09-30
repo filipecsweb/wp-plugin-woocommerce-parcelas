@@ -68,7 +68,7 @@ it('caps the maximum installments, however large the number typed', function ():
 });
 
 it('reads an amount too large to store as none', function (): void {
-    expect(Settings::amount('1e400'))->toBe(0.0)
+    expect(Settings::amount('1e400'))->toBeNull()
         ->and(Settings::sanitize(['installments' => ['min_amount' => '1e400']])['installments']['min_amount'])->toBe(0.0);
 });
 

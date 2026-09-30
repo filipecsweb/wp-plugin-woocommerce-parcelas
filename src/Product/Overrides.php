@@ -66,24 +66,15 @@ final class Overrides
      */
     public static function sanitize(mixed $input): array
     {
-        $in       = is_array($input) ? $input : [];
-        $discount = $in['discount'] ?? null;
-        $type     = $in['discount_type'] ?? null;
+        $in   = is_array($input) ? $input : [];
+        $type = $in['discount_type'] ?? null;
 
         return [
             'installments_disabled' => Settings::flag($in['installments_disabled'] ?? false),
             'max'                   => Settings::maxInstallments($in['max'] ?? null),
             'cash_disabled'         => Settings::flag($in['cash_disabled'] ?? false),
-            'discount'              => self::blank($discount) ? null : Settings::amount($discount),
+            'discount'              => Settings::amount($in['discount'] ?? null),
             'discount_type'         => in_array($type, Settings::DISCOUNT_TYPES, true) ? $type : null,
         ];
-    }
-
-    /**
-     * @since 2.0.0
-     */
-    private static function blank(mixed $value): bool
-    {
-        return $value === null || (is_string($value) && trim($value) === '');
     }
 }

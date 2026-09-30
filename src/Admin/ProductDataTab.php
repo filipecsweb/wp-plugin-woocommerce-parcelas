@@ -61,7 +61,7 @@ final class ProductDataTab
      * WHY text fields, not number fields: the panel is hidden while another tab is
      * open, and the browser then blocks the product's save, without a word, over a
      * value a number field rejects, even a half-typed one like "1e".
-     * Overrides::sanitize() reads whatever was typed.
+     * Overrides::sanitize() reads a value that isn't a number as the store setting.
      *
      * @since 2.0.0
      */

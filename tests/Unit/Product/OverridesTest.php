@@ -27,6 +27,10 @@ it('reads a maximum that is not a number as the store setting', function (): voi
     expect(Overrides::sanitize(['max' => 'twelve'])['max'])->toBeNull();
 });
 
+it('reads a discount that is not a number as the store setting', function (): void {
+    expect(Overrides::sanitize(['discount' => '5%'])['discount'])->toBeNull();
+});
+
 it('falls back to a product’s 1.x overrides until it is saved again', function (): void {
     Functions\when('get_post_meta')->alias(fn (int $id, string $key): mixed => $key === 'fswp_post_meta'
         ? ['disable_installments' => '0', 'installment_qty' => '4', 'disable_in_cash' => '1', 'in_cash_discount' => '', 'in_cash_discount_type' => null]
