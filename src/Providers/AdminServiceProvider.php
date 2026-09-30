@@ -59,7 +59,7 @@ final class AdminServiceProvider extends ServiceProvider
                 'resources/js/app/main.tsx',
                 Identity::SLUG . '-app',
                 'InstallmentPricesConfig',
-                $this->config(),
+                $this->config(...),
                 $this->container->make(TextDomain::class)
             );
         });

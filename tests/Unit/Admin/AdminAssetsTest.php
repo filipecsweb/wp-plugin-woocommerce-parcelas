@@ -45,6 +45,26 @@ it('registers the script translations from the text domain directory', function 
     ]);
 });
 
+it('builds the localized data only on its own screen', function (): void {
+    $localized = [];
+    Functions\when('wp_localize_script')->alias(function (mixed ...$args) use (&$localized): void {
+        $localized[] = $args;
+    });
+    $builds = 0;
+    $config = function () use (&$builds): array {
+        $builds++;
+
+        return ['key' => 'value'];
+    };
+
+    $this->assets->enqueueOnScreen('settings_page_x', 'index.php', 'resources/js/app.tsx', 'plugin-app', 'PluginConfig', $config);
+    expect($builds)->toBe(0);
+
+    $this->assets->enqueueOnScreen('settings_page_x', 'settings_page_x', 'resources/js/app.tsx', 'plugin-app', 'PluginConfig', $config);
+    expect($builds)->toBe(1)
+        ->and($localized)->toBe([['plugin-app', 'PluginConfig', ['key' => 'value']]]);
+});
+
 it('registers no translations without a text domain', function (): void {
     $this->assets->enqueueOnScreen('settings_page_x', 'settings_page_x', 'resources/js/app.tsx', 'plugin-app');
 
