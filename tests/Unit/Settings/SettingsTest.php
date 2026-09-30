@@ -67,6 +67,11 @@ it('caps the maximum installments, however large the number typed', function ():
     }
 });
 
+it('reads an amount too large to store as none', function (): void {
+    expect(Settings::amount('1e400'))->toBe(0.0)
+        ->and(Settings::sanitize(['installments' => ['min_amount' => '1e400']])['installments']['min_amount'])->toBe(0.0);
+});
+
 it('admits only CSS-safe style values', function (): void {
     $style = Settings::sanitize(['style' => ['installments' => ['loop' => [
         'prefix' => ['color' => '#CC1818', 'weight' => '700', 'size' => '1.2EM'],

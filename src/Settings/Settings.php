@@ -210,7 +210,8 @@ final class Settings
 
     /**
      * An amount as a store owner types it: a decimal comma is accepted (1.x stored
-     * amounts that way, e.g. "5,95"); anything unreadable or negative is 0.
+     * amounts that way, e.g. "5,95"); anything unreadable, negative or too large to
+     * store (e.g. "1e400", which no JSON can hold) is 0.
      *
      * @since 2.0.0
      */
@@ -218,7 +219,7 @@ final class Settings
     {
         $number = is_string($value) ? str_replace(',', '.', trim($value)) : $value;
 
-        return is_numeric($number) ? max(0.0, (float) $number) : 0.0;
+        return is_numeric($number) && is_finite((float) $number) ? max(0.0, (float) $number) : 0.0;
     }
 
     /**
