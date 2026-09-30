@@ -277,10 +277,6 @@ msgid "e.g. \"interest-free\"."
 msgstr "Ex.: \"sem juros\"."
 
 #: public/build/main.js
-msgid "At least 2. A product can set its own in its Installments tab."
-msgstr "No mínimo 2. Cada produto pode definir o seu na aba Parcelamento."
-
-#: public/build/main.js
 msgid "Minimum installment"
 msgstr "Parcela mínima"
 
@@ -405,3 +401,15 @@ msgstr "Obter suporte"
 #: public/build/main.js
 msgid "WooCommerce is a trademark of its respective owner. This plugin is not affiliated with or endorsed by WooCommerce."
 msgstr "WooCommerce é uma marca de seu respectivo proprietário. Este plugin não é afiliado ao WooCommerce nem endossado por ele."
+
+#. translators: 1: fewest installments allowed; 2: most installments allowed.
+#: src/Admin/ProductDataTab.php
+#, php-format
+msgid "From %1$d to %2$d. Leave blank to use the store setting."
+msgstr "De %1$d a %2$d. Deixe em branco para usar a configuração da loja."
+
+#. translators: 1: fewest installments allowed; 2: most installments allowed.
+#: public/build/main.js
+#, php-format
+msgid "From %1$d to %2$d. A product can set its own in its Installments tab."
+msgstr "De %1$d a %2$d. Cada produto pode definir o seu na aba Parcelamento."
