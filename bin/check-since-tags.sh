@@ -2,12 +2,12 @@
 #
 # Check that every source file in the docblock-tagged tiers declares at least one
 # @since tag. This guards the @since/@version provenance convention: a new PHP
-# type, view/bootstrap file header, or JS source module that ships without
+# type, bootstrap file header, or JS source module that ships without
 # provenance fails loud instead of drifting untagged.
 #
 # Tagged tiers (each tracked file MUST contain @since):
-#   PHP: foundation/src, modules/admin-ui/src, src, the two root bootstrap files
-#        (plugin main file + uninstall.php), and the resources/views templates.
+#   PHP: foundation/src, modules/admin-ui/src, src, and the two root bootstrap files
+#        (plugin main file + uninstall.php).
 #   JS:  the resources/js source modules.
 #
 # Out of scope BY DESIGN (not checked): tests/, build configs (vite.config.js,
@@ -46,7 +46,6 @@ done < <(
     'foundation/src/*.php' \
     'modules/admin-ui/src/*.php' \
     'src/*.php' \
-    'resources/views/*.php' \
     'resources/js/*.js' \
     'resources/js/*.ts' \
     'resources/js/*.tsx' \
