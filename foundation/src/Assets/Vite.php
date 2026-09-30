@@ -61,7 +61,8 @@ final class Vite
     }
 
     /**
-     * Enqueue a JS entry (e.g. "resources/js/admin.js").
+     * Enqueue a JS entry, named by its build-manifest key: the entry's source path
+     * relative to the project root.
      *
      * @since 2.0.0
      *
