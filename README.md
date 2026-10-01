@@ -11,10 +11,9 @@ its name until 2.0.0. The slug is permanent, so the plugin folder, the main file
 (`woocommerce-parcelas.php`) and the text domain keep it; everything the code names
 uses `installment-prices-for-woocommerce` ([`src/Identity.php`](src/Identity.php)).
 
-Built on the same plugin **Foundation** as
-[FastCGI Cache for Ploi](https://github.com/filipecsweb/wp-plugin-fastcgi-cache-for-ploi)
-(PHP 8.2+, PSR-11 DI container, attribute-based hooks, vendored Vite enqueuer, opt-in
-modules), bundled under this plugin's namespace.
+Built on a bundled plugin **Foundation** (PHP 8.2+, PSR-11 DI container,
+attribute-based hooks, vendored Vite enqueuer, opt-in modules), scoped under this
+plugin's namespace.
 
 ---
 
@@ -39,7 +38,7 @@ modules), bundled under this plugin's namespace.
 - For development: Composer, Node (the version pinned in `.nvmrc`),
   [WP-CLI](https://wp-cli.org/), which `npm run build` uses to compile the translations
   (`bin/i18n.sh sync`, `check` and `add` also need gettext), and a local
-  WordPress with WooCommerce (e.g. [Herd](https://herd.laravel.com) + [DBngin](https://dbngin.com))
+  WordPress with WooCommerce
 
 ## Installation
 
@@ -56,7 +55,7 @@ Then, from the plugin folder, symlink it into a site's `wp-content/plugins/` as
 `woocommerce-parcelas` and activate it:
 
 ```bash
-ln -s "$PWD" ~/Herd/mysite/wp-content/plugins/woocommerce-parcelas
+ln -s "$PWD" /path/to/wordpress/wp-content/plugins/woocommerce-parcelas
 ```
 
 The settings live under **WooCommerce → Installment Prices**.
