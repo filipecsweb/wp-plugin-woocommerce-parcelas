@@ -1,4 +1,4 @@
-# Files excluded from the distributed plugin ZIP (wp dist-archive reads this).
+# Files excluded from the distributed plugin ZIP (bin/build.sh reads this).
 # This is the SINGLE source of truth for what the shipped archive omits — there is
 # deliberately no second mechanism (no .gitattributes export-ignore) to drift from.
 #

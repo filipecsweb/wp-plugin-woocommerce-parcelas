@@ -6,7 +6,7 @@
 /public/build/
 /resources/js/ui/cn-tables.js
 
-# Distributable archive (built into a staging dir; see .distignore)
+# bin/build.sh output (the shipped tree and its ZIP) and bin/plugin-check.sh reports
 /dist/
 
 # Tooling caches
