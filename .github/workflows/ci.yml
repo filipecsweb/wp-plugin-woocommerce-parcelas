@@ -31,6 +31,9 @@ jobs:
       - name: Docblock @since presence
         run: bin/check-since-tags.sh
 
+      - name: wp.org listing assets
+        run: bin/check-wporg-assets.sh
+
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
