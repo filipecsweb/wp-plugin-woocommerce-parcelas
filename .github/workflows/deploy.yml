@@ -4,20 +4,27 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+
 # One deploy at a time; never cancel an in-flight SVN commit.
 concurrency:
   group: wporg-deploy
   cancel-in-progress: false
 
+# The tree bin/build.sh leaves; the 10up action reads BUILD_DIR from the environment.
+env:
+  BUILD_DIR: dist/woocommerce-parcelas
+
 jobs:
-  deploy:
-    name: Deploy to WordPress.org
+  # WHY two jobs: npm and Composer install scripts run third-party code, and a step can
+  # rewrite every later step's PATH and env (GITHUB_PATH, GITHUB_ENV). The build runs in
+  # a job without the SVN credentials; the job that holds them runs no installed code.
+  build:
+    name: Build
     runs-on: ubuntu-latest
     # `published` also fires for pre-releases — never ship those to wp.org.
     if: ${{ !github.event.release.prerelease }}
-    # The SVN credentials are this environment's secrets, not the repository's, so no
-    # other job (the E2E job reads every secret it can) ever sees them.
-    environment: wporg
     steps:
       - uses: actions/checkout@v5
 
@@ -35,17 +42,32 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      # The shipped ZIP contains only the compiled public/build/ output; the
-      # front-end source is excluded via .distignore (single source of truth).
-      - run: npm ci
-      - run: npm run build
+      # bin/build.sh owns the build and the .distignore filtering.
+      - run: bin/build.sh --no-restore
 
-      - name: Verify the build manifest exists
-        run: test -f public/build/.vite/manifest.json
+      - uses: actions/upload-artifact@v7
+        with:
+          name: build
+          path: ${{ env.BUILD_DIR }}
+          # GOTCHA: the plugin reads public/build/.vite/manifest.json at runtime, and
+          # hidden files are left out of an artifact by default.
+          include-hidden-files: true
 
-      # Production autoloader only — dev packages never ship.
-      - name: Install Composer dependencies (production)
-        run: composer install --prefer-dist --no-progress --no-dev --optimize-autoloader
+  deploy:
+    name: Deploy to WordPress.org
+    needs: build
+    runs-on: ubuntu-latest
+    # The SVN credentials are this environment's secrets, not the repository's, so no
+    # other job (the E2E job reads every secret it can) ever sees them.
+    environment: wporg
+    steps:
+      # The action reads ASSETS_DIR from the checkout.
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: build
+          path: ${{ env.BUILD_DIR }}
 
       - name: Deploy to WordPress.org SVN
         uses: 10up/action-wordpress-plugin-deploy@stable
@@ -56,9 +78,11 @@ jobs:
           # action would default to the repo name and hit the wrong SVN URL.
           SLUG: woocommerce-parcelas
           # Assets live at .wordpress-org/assets/, one level below the action's
-          # default ASSETS_DIR (.wordpress-org). Without this the action copies the
-          # whole assets/ subfolder into SVN and nests it as assets/assets/, so the
-          # banner/icon go missing on the plugin page.
+          # default ASSETS_DIR (.wordpress-org). Without this the action mirrors
+          # .wordpress-org/ itself: it nests the images as assets/assets/, so the
+          # banner/icon go missing on the plugin page, and it publishes
+          # .wordpress-org/README.md. bin/check-wporg-assets.sh vets this same
+          # folder, so change both together.
           ASSETS_DIR: .wordpress-org/assets
           # VERSION is intentionally not set: the action derives it from the
           # release tag and strips a leading "v" (v1.2.3 -> 1.2.3).
