@@ -1,16 +1,18 @@
 # WordPress.org plugin page assets
 
-These images are **not** part of the distributed plugin ZIP. They are served only
-on the plugin's public page at wordpress.org and live in the `assets/` directory
-of the plugin's SVN repository — never in `trunk/` or a release `tag/`.
+The images in `assets/` are **not** part of the distributed plugin ZIP. They are
+served only on the plugin's public page at wordpress.org and live in the `assets/`
+directory of the plugin's SVN repository — never in `trunk/` or a release `tag/`.
 
 This `.wordpress-org/` directory version-controls them here so they exist before
-being pushed to SVN. It is excluded from the built ZIP (see `.distignore`). The
+being pushed to SVN. It is excluded from the built ZIP (see `.distignore`).
+`deploy.yml` hands `assets/` to the
 [10up `action-wordpress-plugin-deploy`](https://github.com/10up/action-wordpress-plugin-deploy)
-and `action-wordpress-plugin-asset-update` actions read assets from exactly this
-path, so the layout doubles as deploy input.
+action as its `ASSETS_DIR`, and the action mirrors it into SVN `assets/` verbatim:
+keep only wp.org images there. Any other file, a README or a `.gitkeep`, is
+published too.
 
-## Expected files (filename convention is mandatory)
+## Expected files in `assets/` (filename convention is mandatory)
 
 WordPress.org maps these by **filename**, not by any manifest — names must match exactly.
 
@@ -30,6 +32,7 @@ WordPress.org maps these by **filename**, not by any manifest — names must mat
 
 ## Notes
 - PNG or JPG only for raster images. Keep file sizes reasonable.
-- Asset changes go live on the .org page independently of a code release — you can
-  update the banner/icon/screenshots without shipping a new plugin version.
-- Drop the actual image files alongside this README; do not rename them.
+- Asset changes reach wp.org with the next release deploy, which mirrors `assets/`
+  into SVN `assets/`: commit them here, since a file committed straight to SVN
+  `assets/` and missing here is deleted by that mirror.
+- Put the image files in `assets/` under exactly these names.
